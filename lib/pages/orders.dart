@@ -49,7 +49,6 @@ class _OrdersPageState extends State<OrdersPage> {
     orderlistController.finalList.clear();
     orderlistController.fetchOrderlistdata();
     dashboardController.fetchDashboardData();
-
     scrollController.addListener(refresh);
   }
 
@@ -422,15 +421,54 @@ class _OrdersPageState extends State<OrdersPage> {
               ),
 
               SizedBox(height: 15),
-
+              Obx(
+                () => orderlistController.isLoading.value == true
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            color: AppColors.defaultColor,
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
+              ),
+              Obx(
+                () => orderlistController.isLoading.value == false
+                    ? Container(
+                        child:
+                            orderlistController
+                                .allorderlist
+                                .value
+                                .data!
+                                .orders
+                                .isNotEmpty
+                            ? SizedBox()
+                            : Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/empty.png",
+                                      height: 80,
+                                    ),
+                                    Text("No Data found", style: TextStyle()),
+                                  ],
+                                ),
+                              ),
+                      )
+                    : SizedBox(),
+              ),
               Expanded(
                 child: Obx(
-                  () => orderlistController.isLoading.value == false
+                  () =>
+                      orderlistController.isLoading.value == false &&
+                          orderlistController.finalList.isNotEmpty
                       ? RefreshIndicator(
                           onRefresh: refresh,
                           child: ListView.builder(
                             shrinkWrap: false,
-                            physics: BouncingScrollPhysics(),
+                            physics: AlwaysScrollableScrollPhysics(),
                             controller: scrollController,
                             itemCount: orderlistController.finalList.length,
                             itemBuilder: (context, index) {
@@ -962,11 +1000,13 @@ class _OrdersPageState extends State<OrdersPage> {
                             },
                           ),
                         )
+                      : orderlistController.finalList.isEmpty
+                      ? SizedBox()
                       : RefreshIndicator(
                           onRefresh: refresh,
                           child: ListView.builder(
                             shrinkWrap: false,
-                            physics: BouncingScrollPhysics(),
+                            physics: AlwaysScrollableScrollPhysics(),
                             controller: scrollController,
                             itemCount: orderlistController.finalList.length,
                             itemBuilder: (context, index) {
@@ -1501,33 +1541,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
               ),
 
-              Obx(
-                () => orderlistController.isLoading.value == true
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 5),
-                          CircularProgressIndicator(
-                            color: AppColors.defaultColor,
-                          ),
-                        ],
-                      )
-                    : SizedBox(),
-              ),
               SizedBox(height: 20),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // MyContainerList(
-              //   itemCount: int.parse(
-              //     orderlistController
-              //         .allorderlist.value.payload!.pagination.totalPages
-              //         .toString(),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 25,
-              // ),
             ],
           ),
         ),

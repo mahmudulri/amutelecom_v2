@@ -271,7 +271,24 @@
 "ADD_FIRST_AND_LAST_NAME": "Ad ve Soyad Ekle",
 "ENTER_EMAIL_ADDRESS": "E-posta Adresini Girin",
 "COUNTRY_OF_RESIDENCE": "İkamet Ülkesi",
-"DESIRED_CURRENCY": "Tercih Edilen Para Birimi"
+"DESIRED_CURRENCY": "Tercih Edilen Para Birimi",
+"PERMISSION_DENIED": "İzin Reddedildi",
+"STORAGE_PERMISSION_IS_REQUIRED": "Depolama izni gerekli",
+"FAILDE": "Başarısız",
+"COULD_NOT_SAVE_IMAGE": "Görsel kaydedilemedi",
+"ERROR": "Hata",
+"FAILED_TO_CAPTURE_IMAGE": "Görsel yakalanamadı",
+"REGISTRATION_SUCCESSFULL": "Kayıt Başarıyla Tamamlandı",
+"ENTER_YOUR_FULL_NAME": "Tam Adınızı Girin",
+"ENTER_CONTACT_NAME": "Kişi Adını Girin",
+"ENTER_YOUR_PIN": "PIN’inizi Girin",
+"INVALID_INPUT": "Geçersiz Giriş",
+"ALREADY_REGISTERED": "Zaten Kayıtlı",
+"UPDATE_GROUP": "Grubu Güncelle"
+
+
+
+
 
 
 }

@@ -56,6 +56,7 @@ class SignInController extends GetxController {
       );
 
       final results = jsonDecode(response.body);
+      print(results);
 
       if (response.statusCode == 200) {
         box.write("userToken", results["data"]["api_token"]);
@@ -96,16 +97,16 @@ class SignInController extends GetxController {
           // Fetch country data only if login is successful
         } else {
           Get.snackbar(
-            "Oops!",
             results["message"],
+            results["errors"],
             backgroundColor: Colors.red,
             colorText: Colors.white,
           );
         }
       } else {
         Get.snackbar(
-          "Oops!",
           results["message"],
+          results["errors"],
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );

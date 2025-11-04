@@ -1,4 +1,4 @@
-package com.example.amutelecom
+package com.woosat.amu_update
 
 import io.flutter.embedding.android.FlutterActivity
 

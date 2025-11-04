@@ -271,7 +271,24 @@
 "ADD_FIRST_AND_LAST_NAME": "প্রথম ও শেষ নাম যোগ করুন",
 "ENTER_EMAIL_ADDRESS": "ইমেইল ঠিকানা লিখুন",
 "COUNTRY_OF_RESIDENCE": "বাসস্থানের দেশ",
-"DESIRED_CURRENCY": "পছন্দের মুদ্রা"
+"DESIRED_CURRENCY": "পছন্দের মুদ্রা",
+"PERMISSION_DENIED": "অনুমতি অস্বীকৃত",
+"STORAGE_PERMISSION_IS_REQUIRED": "স্টোরেজ অনুমতি প্রয়োজন",
+"FAILDE": "ব্যর্থ হয়েছে",
+"COULD_NOT_SAVE_IMAGE": "ছবি সংরক্ষণ করা যায়নি",
+"ERROR": "ত্রুটি",
+"FAILED_TO_CAPTURE_IMAGE": "ছবি তুলতে ব্যর্থ হয়েছে",
+"REGISTRATION_SUCCESSFULL": "নিবন্ধন সফল হয়েছে",
+"ENTER_YOUR_FULL_NAME": "আপনার পূর্ণ নাম লিখুন",
+"ENTER_CONTACT_NAME": "যোগাযোগের নাম লিখুন",
+"ENTER_YOUR_PIN": "আপনার পিন লিখুন",
+"INVALID_INPUT": "অবৈধ ইনপুট",
+"ALREADY_REGISTERED": "ইতিমধ্যে নিবন্ধিত",
+"UPDATE_GROUP": "গ্রুপ আপডেট করুন"
+
+
+
+
 
 
 }

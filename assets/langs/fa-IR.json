@@ -231,7 +231,7 @@
     "TRANSFER_COMISSION": "انتقال کمیسیون",
     "CREATE_TRANSFER_REQUEST": "ایجاد درخواست انتقال",
     "SET_PIN": "تنظیم پین",
-    "CONFIRM_PIN": "تأیید رمز عبور",
+    "CONFIRM_PIN": "تأیید پین",
     "ENTER_CONFIRM_PIN": "رمز عبور تأییدی را وارد کنید",
     "DONT_MATCH_BOTH_PIN": "رمزهای عبور با هم مطابقت ندارند",
     "SET_COMMISSION_GROUP": "تنظیم گروه کمیسیون",
@@ -271,7 +271,24 @@
 "ADD_FIRST_AND_LAST_NAME": "نام و نام خانوادگی را وارد کنید",
 "ENTER_EMAIL_ADDRESS": "آدرس ایمیل را وارد کنید",
 "COUNTRY_OF_RESIDENCE": "کشور محل اقامت",
-"DESIRED_CURRENCY": "ارز مورد نظر"
+"DESIRED_CURRENCY": "ارز مورد نظر",
+"PERMISSION_DENIED": "دسترسی رد شد",
+"STORAGE_PERMISSION_IS_REQUIRED": "دسترسی به حافظه مورد نیاز است",
+"FAILDE": "ناموفق",
+"COULD_NOT_SAVE_IMAGE": "ذخیره تصویر ممکن نیست",
+"ERROR": "خطا",
+"FAILED_TO_CAPTURE_IMAGE": "در گرفتن تصویر خطا رخ داد",
+"REGISTRATION_SUCCESSFULL": "ثبت‌نام با موفقیت انجام شد",
+"ENTER_YOUR_FULL_NAME": "نام کامل خود را وارد کنید",
+"ENTER_CONTACT_NAME": "نام مخاطب را وارد کنید",
+"ENTER_YOUR_PIN": "پین خود را وارد کنید",
+"INVALID_INPUT": "ورودی نامعتبر است",
+"ALREADY_REGISTERED": "قبلاً ثبت‌نام کرده‌اید",
+"UPDATE_GROUP": "به‌روزرسانی گروه"
+
+
+
+
 
 
 }

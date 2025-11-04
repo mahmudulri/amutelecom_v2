@@ -1,9 +1,9 @@
 class ApiEndPoints {
-  // static String baseUrl =
-  //     "https://api-vpro-hetz-25.amutelecom.com/api/reseller/";
-
   static String baseUrl =
-      "https://app-api-vpro-wl-waslat.milliekit.com/api/reseller/";
+      "https://api-vpro-hetz-25.amutelecom.com/api/reseller/";
+
+  // static String baseUrl =
+  //     "https://app-api-vpro-wl-waslat.milliekit.com/api/reseller/";
 
   // static String languageUrl =
   //     "https://app-api-amu-25.amutelecom.com/api/locale/";

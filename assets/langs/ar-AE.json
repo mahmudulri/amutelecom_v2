@@ -270,7 +270,24 @@
 "ADD_FIRST_AND_LAST_NAME": "أضف الاسم الأول واسم العائلة",
 "ENTER_EMAIL_ADDRESS": "أدخل عنوان البريد الإلكتروني",
 "COUNTRY_OF_RESIDENCE": "بلد الإقامة",
-"DESIRED_CURRENCY": "العملة المطلوبة"
+"DESIRED_CURRENCY": "العملة المطلوبة",
+"PERMISSION_DENIED": "تم رفض الإذن",
+"STORAGE_PERMISSION_IS_REQUIRED": "إذن التخزين مطلوب",
+"FAILDE": "فشل",
+"COULD_NOT_SAVE_IMAGE": "تعذر حفظ الصورة",
+"ERROR": "خطأ",
+"FAILED_TO_CAPTURE_IMAGE": "فشل في التقاط الصورة",
+"REGISTRATION_SUCCESSFULL": "تم التسجيل بنجاح",
+"ENTER_YOUR_FULL_NAME": "أدخل اسمك الكامل",
+"ENTER_CONTACT_NAME": "أدخل اسم جهة الاتصال",
+"ENTER_YOUR_PIN": "أدخل رقم التعريف الشخصي",
+"INVALID_INPUT": "إدخال غير صالح",
+"ALREADY_REGISTERED": "مسجل بالفعل",
+"UPDATE_GROUP": "تحديث المجموعة"
+
+
+
+
 
 
 }

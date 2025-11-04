@@ -145,7 +145,7 @@ class _SignInScreenState extends State<SignInScreen>
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Container(
-                    height: 50,
+                    height: 55,
                     decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
                       borderRadius: BorderRadius.circular(15),
@@ -155,7 +155,6 @@ class _SignInScreenState extends State<SignInScreen>
                       child: Obx(
                         () => Center(
                           child: TextField(
-                            textAlignVertical: TextAlignVertical.center,
                             controller: signInController.usernameController,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -171,7 +170,7 @@ class _SignInScreenState extends State<SignInScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Container(
-                    height: 50,
+                    height: 55,
                     width: screenWidth,
                     decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.grey),
@@ -182,7 +181,6 @@ class _SignInScreenState extends State<SignInScreen>
                       child: Obx(
                         () => Center(
                           child: TextField(
-                            textAlignVertical: TextAlignVertical.center,
                             controller: signInController.passwordController,
                             decoration: InputDecoration(
                               border: InputBorder.none,

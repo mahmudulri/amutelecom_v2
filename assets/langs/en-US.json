@@ -271,7 +271,24 @@
 "ADD_FIRST_AND_LAST_NAME": "Add First and Last Name",
 "ENTER_EMAIL_ADDRESS": "Enter Email Address",
 "COUNTRY_OF_RESIDENCE": "Country of Residence",
-"DESIRED_CURRENCY": "Desired Currency"
+"DESIRED_CURRENCY": "Desired Currency",
+"PERMISSION_DENIED": "Permission Denied",
+"STORAGE_PERMISSION_IS_REQUIRED": "Storage permission is required",
+"FAILDE": "Failed",
+"COULD_NOT_SAVE_IMAGE": "Could not save image",
+"ERROR": "Error",
+"FAILED_TO_CAPTURE_IMAGE": "Failed to capture image",
+"REGISTRATION_SUCCESSFULL": "Registration Successful",
+"ENTER_YOUR_FULL_NAME": "Enter Your Full Name",
+"ENTER_CONTACT_NAME": "Enter Contact Name",
+"ENTER_YOUR_PIN": "Enter Your PIN",
+"INVALID_INPUT": "Invalid Input",
+"ALREADY_REGISTERED": "Already Registered",
+"UPDATE_GROUP": "Update Group"
+
+
+
+
 
 
     
