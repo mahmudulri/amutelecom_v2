@@ -94,44 +94,42 @@ class _NewBaseScreenState extends State<NewBaseScreen>
         final shouldExit = await showExitPopup();
         return shouldExit;
       },
-      child: SafeArea(
-        child: Scaffold(
-          body: pages[currentIndex],
-          bottomNavigationBar: Obx(
-            () => BottomNavigationBar(
-              elevation: 2.0,
-              selectedItemColor: Colors.green,
-              // type: BottomNavigationBarType.fixed,
-              currentIndex: currentIndex,
-              onTap: (index) {
-                setState(() {
-                  currentIndex = index;
-                  if (index == 0) {
-                    dashboardController.fetchDashboardData();
-                    countryListController.printAfghanistanDetails();
-                    historyController.finalList.clear();
-                    historyController.initialpage = 1;
-                    historyController.fetchHistory();
-                  } else {
-                    print("object");
-                  }
-                });
-              },
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: languagesController.tr("HOME"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.group),
-                  label: languagesController.tr("SUB_RESELLER"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: languagesController.tr("ACCOUNT"),
-                ),
-              ],
-            ),
+      child: Scaffold(
+        body: pages[currentIndex],
+        bottomNavigationBar: Obx(
+          () => BottomNavigationBar(
+            elevation: 2.0,
+            selectedItemColor: Colors.green,
+            // type: BottomNavigationBarType.fixed,
+            currentIndex: currentIndex,
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+                if (index == 0) {
+                  dashboardController.fetchDashboardData();
+                  countryListController.printAfghanistanDetails();
+                  historyController.finalList.clear();
+                  historyController.initialpage = 1;
+                  historyController.fetchHistory();
+                } else {
+                  print("object");
+                }
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: languagesController.tr("HOME"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.group),
+                label: languagesController.tr("SUB_RESELLER"),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: languagesController.tr("ACCOUNT"),
+              ),
+            ],
           ),
         ),
       ),

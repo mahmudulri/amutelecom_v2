@@ -489,7 +489,7 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
                             ),
                           ),
                           Text(
-                            "${languagesController.tr("VERSION")} 1.0.0",
+                            "${languagesController.tr("VERSION")} 1.0.8",
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Colors.grey,
