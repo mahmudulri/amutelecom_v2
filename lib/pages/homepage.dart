@@ -146,7 +146,7 @@ class _HomepageState extends State<Homepage>
   late TabController _tabController;
   double containerHeight = 220.0;
 
-  String myversion = "1.0.8";
+  String myversion = "1.0.9";
   var maindata;
   var currentversion;
   String? checknow;

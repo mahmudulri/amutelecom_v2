@@ -62,43 +62,55 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   final box = GetStorage();
   final TimeZoneController timeZoneController = Get.put(TimeZoneController());
 
-  Text convertToLocalTime(String utcTimeString) {
-    String localTimeString;
+  // Text convertToLocalTime(String utcTimeString) {
+  //   String localTimeString;
+  //   try {
+  //     // Parse the UTC time
+  //     DateTime utcTime = DateTime.parse(utcTimeString);
+
+  //     // Calculate the offset duration
+  //     Duration offset = Duration(
+  //       hours: int.parse(timeZoneController.hour),
+  //       minutes: int.parse(timeZoneController.minute),
+  //     );
+
+  //     // Apply the offset (subtracting for negative)
+
+  //     if (timeZoneController.sign == "+") {
+  //       DateTime localTime = utcTime.add(offset);
+  //       String formattedTime = DateFormat(
+  //         'yyyy-MM-dd hh:mm:ss a',
+  //         'en_US',
+  //       ).format(localTime);
+  //       localTimeString = '$formattedTime';
+  //     } else {
+  //       DateTime localTime = utcTime.subtract(offset);
+  //       String formattedTime = DateFormat(
+  //         'yyyy-MM-dd hh:mm:ss a',
+  //         'en_US',
+  //       ).format(localTime);
+
+  //       localTimeString = '$formattedTime';
+  //     }
+  //   } catch (e) {
+  //     localTimeString = '';
+  //   }
+  //   return Text(
+  //     localTimeString,
+  //     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+  //   );
+  // }
+
+  String formatUtcToLocal(String utcTimeString) {
     try {
-      // Parse the UTC time
-      DateTime utcTime = DateTime.parse(utcTimeString);
-
-      // Calculate the offset duration
-      Duration offset = Duration(
-        hours: int.parse(timeZoneController.hour),
-        minutes: int.parse(timeZoneController.minute),
-      );
-
-      // Apply the offset (subtracting for negative)
-
-      if (timeZoneController.sign == "+") {
-        DateTime localTime = utcTime.add(offset);
-        String formattedTime = DateFormat(
-          'yyyy-MM-dd hh:mm:ss a',
-          'en_US',
-        ).format(localTime);
-        localTimeString = '$formattedTime';
-      } else {
-        DateTime localTime = utcTime.subtract(offset);
-        String formattedTime = DateFormat(
-          'yyyy-MM-dd hh:mm:ss a',
-          'en_US',
-        ).format(localTime);
-
-        localTimeString = '$formattedTime';
-      }
+      DateTime utc = DateTime.parse(utcTimeString).toUtc();
+      DateTime local = utc
+          .toLocal(); // স্বয়ংক্রিয়ভাবে ডিভাইসের timezone অনুযায়ী কনভার্ট করবে
+      return DateFormat('yyyy-MM-dd hh:mm:ss a', 'en_US').format(local);
     } catch (e) {
-      localTimeString = '';
+      print('Error converting time: $e');
+      return '';
     }
-    return Text(
-      localTimeString,
-      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-    );
   }
 
   @override
@@ -191,7 +203,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              convertToLocalTime(widget.createDate.toString()),
+                              Text(
+                                formatUtcToLocal(widget.createDate.toString()),
+                              ),
+                              // Text(widget.createDate.toString()),
                             ],
                           ),
                           SizedBox(height: 10),
