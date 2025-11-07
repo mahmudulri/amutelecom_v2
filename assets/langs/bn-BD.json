@@ -284,7 +284,11 @@
 "ENTER_YOUR_PIN": "আপনার পিন লিখুন",
 "INVALID_INPUT": "অবৈধ ইনপুট",
 "ALREADY_REGISTERED": "ইতিমধ্যে নিবন্ধিত",
-"UPDATE_GROUP": "গ্রুপ আপডেট করুন"
+"UPDATE_GROUP": "গ্রুপ আপডেট করুন",
+"PLEASE_ENTER_A_CORRECT": "সঠিক লিখুন",
+"DIGIT": "অঙ্ক",
+"NUMBER": "সংখ্যা"
+
 
 
 

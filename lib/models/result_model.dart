@@ -16,52 +16,44 @@ class ResultModel {
   final Data? data;
   final List<dynamic>? payload;
 
-  ResultModel({
-    this.success,
-    this.code,
-    this.message,
-    this.data,
-    this.payload,
-  });
+  ResultModel({this.success, this.code, this.message, this.data, this.payload});
 
   factory ResultModel.fromJson(Map<String, dynamic> json) => ResultModel(
-        success: json["success"],
-        code: json["code"],
-        message: json["message"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
-        payload: json["payload"] == null
-            ? []
-            : List<dynamic>.from(json["payload"]!.map((x) => x)),
-      );
+    success: json["success"],
+    code: json["code"],
+    message: json["message"],
+    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    payload: json["payload"] == null
+        ? []
+        : List<dynamic>.from(json["payload"]!.map((x) => x)),
+  );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "code": code,
-        "message": message,
-        "data": data?.toJson(),
-        "payload":
-            payload == null ? [] : List<dynamic>.from(payload!.map((x) => x)),
-      };
+    "success": success,
+    "code": code,
+    "message": message,
+    "data": data?.toJson(),
+    "payload": payload == null
+        ? []
+        : List<dynamic>.from(payload!.map((x) => x)),
+  };
 }
 
 class Data {
   final Order? order;
   final String? statusMessage;
 
-  Data({
-    this.order,
-    this.statusMessage,
-  });
+  Data({this.order, this.statusMessage});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        order: json["order"] == null ? null : Order.fromJson(json["order"]),
-        statusMessage: json["statusMessage"],
-      );
+    order: json["order"] == null ? null : Order.fromJson(json["order"]),
+    statusMessage: json["statusMessage"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "order": order?.toJson(),
-        "statusMessage": statusMessage,
-      };
+    "order": order?.toJson(),
+    "statusMessage": statusMessage,
+  };
 }
 
 class Order {
@@ -87,39 +79,39 @@ class Order {
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
-        rechargebleAccount: json["rechargeble_account"],
-        bundle: json["bundle"] == null ? null : Bundle.fromJson(json["bundle"]),
-        orderType: json["order_type"],
-        status: json["status"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        id: json["id"],
-        reseller: json["reseller"] == null
-            ? null
-            : Reseller.fromJson(json["reseller"]),
-      );
+    rechargebleAccount: json["rechargeble_account"],
+    bundle: json["bundle"] == null ? null : Bundle.fromJson(json["bundle"]),
+    orderType: json["order_type"],
+    status: json["status"],
+    createdAt: json["created_at"] == null
+        ? null
+        : DateTime.parse(json["created_at"]),
+    id: json["id"],
+    reseller: json["reseller"] == null
+        ? null
+        : Reseller.fromJson(json["reseller"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "rechargeble_account": rechargebleAccount,
-        "bundle": bundle?.toJson(),
-        "order_type": orderType,
-        "status": status,
-        "created_at": createdAt?.toIso8601String(),
-        "id": id,
-        "reseller": reseller?.toJson(),
-      };
+    "rechargeble_account": rechargebleAccount,
+    "bundle": bundle?.toJson(),
+    "order_type": orderType,
+    "status": status,
+    "created_at": createdAt?.toIso8601String(),
+    "id": id,
+    "reseller": reseller?.toJson(),
+  };
 }
 
 class Bundle {
   final String? bundleTitle;
   final String? bundleDescription;
   final dynamic bundleType;
-  final String? validityType;
+  final dynamic validityType;
 
-  final String? buyingPrice;
-  final String? sellingPrice;
-  final dynamic amount;
+  final double? buyingPrice;
+  final double? sellingPrice;
+  final double? amount;
 
   final Service? service;
 
@@ -135,44 +127,45 @@ class Bundle {
   });
 
   factory Bundle.fromJson(Map<String, dynamic> json) => Bundle(
-        bundleTitle: json["bundle_title"],
-        bundleDescription: json["bundle_description"],
-        bundleType: json["bundle_type"],
-        validityType: json["validity_type"],
-        buyingPrice: json["buying_price"],
-        sellingPrice: json["selling_price"],
-        amount: json["amount"],
-        service:
-            json["service"] == null ? null : Service.fromJson(json["service"]),
-      );
+    bundleTitle: json["bundle_title"],
+    bundleDescription: json["bundle_description"],
+    bundleType: json["bundle_type"],
+    validityType: json["validity_type"],
+    // ✅ int বা double যাই আসুক, num এ কাস্ট করে double এ কনভার্ট
+    buyingPrice: (json["buying_price"] is String)
+        ? double.tryParse(json["buying_price"])
+        : (json["buying_price"] as num?)?.toDouble(),
+    sellingPrice: (json["selling_price"] is String)
+        ? double.tryParse(json["selling_price"])
+        : (json["selling_price"] as num?)?.toDouble(),
+    amount: (json["amount"] is String)
+        ? double.tryParse(json["amount"])
+        : (json["amount"] as num?)?.toDouble(),
+    service: json["service"] == null ? null : Service.fromJson(json["service"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "bundle_title": bundleTitle,
-        "bundle_description": bundleDescription,
-        "bundle_type": bundleType,
-        "validity_type": validityType,
-        "buying_price": buyingPrice,
-        "selling_price": sellingPrice,
-        "amount": amount,
-        "service": service?.toJson(),
-      };
+    "bundle_title": bundleTitle,
+    "bundle_description": bundleDescription,
+    "bundle_type": bundleType,
+    "validity_type": validityType,
+    "buying_price": buyingPrice,
+    "selling_price": sellingPrice,
+    "amount": amount,
+    "service": service?.toJson(),
+  };
 }
 
 class Service {
   final Company? company;
 
-  Service({
-    this.company,
-  });
+  Service({this.company});
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
-        company:
-            json["company"] == null ? null : Company.fromJson(json["company"]),
-      );
+    company: json["company"] == null ? null : Company.fromJson(json["company"]),
+  );
 
-  Map<String, dynamic> toJson() => {
-        "company": company?.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"company": company?.toJson()};
 }
 
 class Company {
@@ -180,23 +173,19 @@ class Company {
   final String? companyName;
   final String? companyLogo;
 
-  Company({
-    this.id,
-    this.companyName,
-    this.companyLogo,
-  });
+  Company({this.id, this.companyName, this.companyLogo});
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
-        id: json["id"],
-        companyName: json["company_name"],
-        companyLogo: json["company_logo"],
-      );
+    id: json["id"],
+    companyName: json["company_name"],
+    companyLogo: json["company_logo"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "company_name": companyName,
-        "company_logo": companyLogo,
-      };
+    "id": id,
+    "company_name": companyName,
+    "company_logo": companyLogo,
+  };
 }
 
 class Reseller {
@@ -205,21 +194,17 @@ class Reseller {
 
   final String? phone;
 
-  Reseller({
-    this.resellerName,
-    this.contactName,
-    this.phone,
-  });
+  Reseller({this.resellerName, this.contactName, this.phone});
 
   factory Reseller.fromJson(Map<String, dynamic> json) => Reseller(
-        resellerName: json["reseller_name"],
-        contactName: json["contact_name"],
-        phone: json["phone"],
-      );
+    resellerName: json["reseller_name"],
+    contactName: json["contact_name"],
+    phone: json["phone"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "reseller_name": resellerName,
-        "contact_name": contactName,
-        "phone": phone,
-      };
+    "reseller_name": resellerName,
+    "contact_name": contactName,
+    "phone": phone,
+  };
 }

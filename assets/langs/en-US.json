@@ -284,7 +284,11 @@
 "ENTER_YOUR_PIN": "Enter Your PIN",
 "INVALID_INPUT": "Invalid Input",
 "ALREADY_REGISTERED": "Already Registered",
-"UPDATE_GROUP": "Update Group"
+"UPDATE_GROUP": "Update Group",
+"PLEASE_ENTER_A_CORRECT": "Please enter a correct",
+"DIGIT": "Digit",
+"NUMBER": "Number"
+
 
 
 

@@ -24,20 +24,15 @@ class ConfirmPinController extends GetxController {
 
   RxBool loadsuccess = false.obs;
 
-  Future<void> verify() async {
+  Future<void> verify(BuildContext context) async {
     try {
       isLoading.value = true;
       loadsuccess.value =
           false; // Start with false, only set to true if successful.
 
-      var headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
       var url = Uri.parse(
         "${ApiEndPoints.baseUrl}confirm_pin?pin=${pinController.text}",
       );
-      print(url.toString());
 
       http.Response response = await http.get(
         url,
@@ -48,22 +43,23 @@ class ConfirmPinController extends GetxController {
 
       if (response.statusCode == 200 && results["success"] == true) {
         pinController.clear();
-        loadsuccess.value =
-            true; // Mark as successful only if status and success are correct
 
         // Proceed with placing the order
-        placeOrder();
+        await placeOrder(context);
       } else {
-        handleFailure(results["message"]);
+        showErrorDialog(
+          context,
+          results["message"]?.toString() ?? "Unknown error",
+        );
       }
     } catch (e) {
-      handleFailure(e.toString());
+      showErrorDialog(context, e.toString());
     } finally {
       isLoading.value = false;
     }
   }
 
-  void placeOrder() async {
+  Future<void> placeOrder(BuildContext context) async {
     try {
       placeingLoading.value = true;
       var url = Uri.parse("${ApiEndPoints.baseUrl}place_order");
@@ -82,36 +78,143 @@ class ConfirmPinController extends GetxController {
         },
       );
 
-      final orderresults = jsonDecode(response.body);
-      if (response.statusCode == 201 && orderresults["success"] == true) {
-        // print(response.body);
-
+      final orderResults = jsonDecode(response.body);
+      if (response.statusCode == 201 && orderResults["success"] == true) {
+        loadsuccess.value = true;
+        print(response.body.toString());
         resultController.updateResult(response.body);
 
-        // var results = jsonDecode(response.body)["data"]["order"];
-
-        loadsuccess.value = false;
         pinController.clear();
         numberController.clear();
         box.remove("bundleID");
-        placeingLoading.value = false;
       } else {
-        handleFailure(orderresults["message"]);
+        // show API-provided message or fallback
+        showErrorDialog(
+          context,
+          orderResults["message"]?.toString() ?? "Order failed",
+        );
       }
     } catch (e) {
-      handleFailure(e.toString());
+      showErrorDialog(context, e.toString());
+    } finally {
+      placeingLoading.value = false;
     }
   }
 
   void handleFailure(String message) {
+    pinController.clear();
     loadsuccess.value = false;
     placeingLoading.value = false;
-    Get.snackbar(
-      "Error",
-      message,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
+  }
+
+  void showSuccessDialog(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
     pinController.clear();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(17),
+          ),
+          contentPadding: EdgeInsets.zero,
+          content: Container(
+            height: 350,
+            width: screenWidth,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(17),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(languagesController.tr("SUCCESS")),
+                SizedBox(height: 15),
+                Text(
+                  languagesController.tr("RECHARGE_SUCCESSFULL"),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close success dialog
+                    Navigator.pop(context); // Close main dialog
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: Text(
+                    languagesController.tr("CLOSE"),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showErrorDialog(BuildContext context, String errorMessage) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    pinController.clear();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(17),
+          ),
+          contentPadding: EdgeInsets.zero,
+          content: Container(
+            height: 350,
+            width: screenWidth,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(17),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Failed"),
+                SizedBox(height: 15),
+                Text(
+                  "Recharge Failed!",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    errorMessage,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, color: Colors.black),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close error dialog
+                    Navigator.pop(context); // Close main dialog
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  child: Text("Close", style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

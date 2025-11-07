@@ -284,7 +284,11 @@
 "ENTER_YOUR_PIN": "PIN’inizi Girin",
 "INVALID_INPUT": "Geçersiz Giriş",
 "ALREADY_REGISTERED": "Zaten Kayıtlı",
-"UPDATE_GROUP": "Grubu Güncelle"
+"UPDATE_GROUP": "Grubu Güncelle",
+"PLEASE_ENTER_A_CORRECT": "Lütfen doğru girin",
+"DIGIT": "Rakam",
+"NUMBER": "Sayı"
+
 
 
 

@@ -284,7 +284,11 @@
 "ENTER_YOUR_PIN": "پین خود را وارد کنید",
 "INVALID_INPUT": "ورودی نامعتبر است",
 "ALREADY_REGISTERED": "قبلاً ثبت‌نام کرده‌اید",
-"UPDATE_GROUP": "به‌روزرسانی گروه"
+"UPDATE_GROUP": "به‌روزرسانی گروه",
+"PLEASE_ENTER_A_CORRECT": "لطفاً وارد کنید",
+"DIGIT": "رقم",
+"NUMBER": "عدد"
+
 
 
 

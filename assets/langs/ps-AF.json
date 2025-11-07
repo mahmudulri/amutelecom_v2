@@ -284,7 +284,11 @@
 "ENTER_YOUR_PIN": "خپل PIN دننه کړئ",
 "INVALID_INPUT": "ناسم داخل",
 "ALREADY_REGISTERED": "له مخکې ثبت شوی",
-"UPDATE_GROUP": "ګروپ تازه کړئ"
+"UPDATE_GROUP": "ګروپ تازه کړئ",
+"PLEASE_ENTER_A_CORRECT": "مهرباني وکړئ دننه کړئ",
+"DIGIT": "شمېره",
+"NUMBER": "شمېره"
+
 
 
 

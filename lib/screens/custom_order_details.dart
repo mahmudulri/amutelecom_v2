@@ -107,7 +107,8 @@ class _CustomOrderDetailsState extends State<CustomOrderDetails> {
   //     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
   //   );
   // }
-
+  final GlobalKey _captureKey = GlobalKey();
+  final GlobalKey _shareKey = GlobalKey();
   String formatUtcToLocal(String utcTimeString) {
     try {
       DateTime utc = DateTime.parse(utcTimeString).toUtc();
@@ -134,9 +135,9 @@ class _CustomOrderDetailsState extends State<CustomOrderDetails> {
           child: Column(
             children: [
               RepaintBoundary(
-                key: catpureKey,
+                key: _captureKey,
                 child: RepaintBoundary(
-                  key: shareKey,
+                  key: _shareKey,
                   child: Container(
                     color: Colors.white,
                     child: Padding(
@@ -553,7 +554,7 @@ class _CustomOrderDetailsState extends State<CustomOrderDetails> {
                       flex: 3,
                       child: GestureDetector(
                         onTap: () async {
-                          capturePng();
+                          capturePng(_captureKey);
                         },
                         child: Container(
                           decoration: BoxDecoration(

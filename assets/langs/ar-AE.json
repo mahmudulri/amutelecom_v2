@@ -283,7 +283,11 @@
 "ENTER_YOUR_PIN": "أدخل رقم التعريف الشخصي",
 "INVALID_INPUT": "إدخال غير صالح",
 "ALREADY_REGISTERED": "مسجل بالفعل",
-"UPDATE_GROUP": "تحديث المجموعة"
+"UPDATE_GROUP": "تحديث المجموعة",
+"PLEASE_ENTER_A_CORRECT": "يرجى إدخال الصحيح",
+"DIGIT": "رقم",
+"NUMBER": "عدد"
+
 
 
 

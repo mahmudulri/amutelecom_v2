@@ -194,8 +194,8 @@ class _RechargeScreenState extends State<RechargeScreen> {
           centerTitle: true,
           title: GestureDetector(
             onTap: () {
-              // serviceController.fetchservices();
-              print(box.read("country_id"));
+              print(confirmPinController.isLoading.value.toString());
+              print(confirmPinController.loadsuccess.value.toString());
             },
             child: Text(
               languagesController.tr("RECHARGE"),
@@ -586,6 +586,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                                                 .numberController
                                                 .text
                                                 .isEmpty) {
+                                              print("idd" + data.id.toString());
                                               Fluttertoast.showToast(
                                                 msg: languagesController.tr(
                                                   "ENTER_NUMBER",
@@ -598,6 +599,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                                                 fontSize: 16.0,
                                               );
                                             } else {
+                                              print("idd" + data.id.toString());
                                               if (box.read("permission") ==
                                                       "no" ||
                                                   confirmPinController

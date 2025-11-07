@@ -113,6 +113,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     }
   }
 
+  final GlobalKey _captureKey = GlobalKey();
+  final GlobalKey _shareKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -128,7 +130,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RepaintBoundary(
-                key: catpureKey,
+                key: _captureKey,
                 child: RepaintBoundary(
                   key: shareKey,
                   child: Container(
@@ -561,7 +563,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       flex: 3,
                       child: GestureDetector(
                         onTap: () async {
-                          capturePng();
+                          capturePng(_captureKey);
                         },
                         child: Container(
                           decoration: BoxDecoration(

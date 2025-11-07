@@ -81,7 +81,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     if (!isValid) {
       setState(() {
         errorMessage =
-            languageController.tr("PLEASE_ENTER_A_CORRECT_NUMBER") +
+            languageController.tr("PLEASE_ENTER_A_CORRECT") +
             " ${box.read("maxlength")} " +
             languageController.tr("DIGIT") +
             " " +
