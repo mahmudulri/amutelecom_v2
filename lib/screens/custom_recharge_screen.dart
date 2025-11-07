@@ -35,22 +35,29 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
   final customhistoryController = Get.find<CustomHistoryController>();
   final ScrollController scrollController = ScrollController();
 
-  ConversationController conversationController =
-      Get.put(ConversationController());
+  ConversationController conversationController = Get.put(
+    ConversationController(),
+  );
 
   int selectedIndex = 0;
   final box = GetStorage();
 
   Future<void> refresh() async {
-    final int totalPages = customhistoryController
-            .allorderlist.value.payload?.pagination!.totalPages ??
+    final int totalPages =
+        customhistoryController
+            .allorderlist
+            .value
+            .payload
+            ?.pagination!
+            .totalPages ??
         0;
     final int currentPage = customhistoryController.initialpage;
 
     // Prevent loading more pages if we've reached the last page
     if (currentPage >= totalPages) {
       print(
-          "End..........................................End.....................");
+        "End..........................................End.....................",
+      );
       return;
     }
 
@@ -77,22 +84,17 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
   @override
   void initState() {
     super.initState();
+    customrechargeController.loadsuccess.value = false;
+
     companyController.fetchCompany();
 
-    customhistoryController.finalList.clear();
-    customhistoryController.initialpage = 1;
-    // historyController.fetchHistory();
     currencyController.fetchCurrency();
-
-    customhistoryController.fetchHistory();
-
-    scrollController.addListener(refresh);
     customrechargeController.numberController.addListener(() {
       final text = customrechargeController.numberController.text;
       companyController.matchCompanyByPhoneNumber(text);
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    scrollController.addListener(refresh);
   }
 
   final dashboardController = Get.find<DashboardController>();
@@ -110,16 +112,15 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
           onTap: () {
             Get.back();
           },
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
+          child: Icon(Icons.arrow_back, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
         centerTitle: true,
         title: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            // print(countryListController.allcountryListData.toJson());
+          },
           child: Text(
             languagesController.tr("DIRECT_RECHARGE"),
             style: TextStyle(
@@ -137,6 +138,7 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Column(
             children: [
+              SizedBox(height: 5),
               Container(
                 height: 260,
                 width: screenWidth,
@@ -162,31 +164,28 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
-                              Image.asset(
-                                "assets/icons/phone.png",
-                                height: 25,
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
+                              Image.asset("assets/icons/phone.png", height: 25),
+                              SizedBox(width: 12),
                               Expanded(
                                 child: TextField(
                                   controller:
                                       customrechargeController.numberController,
                                   keyboardType: TextInputType.phone,
                                   inputFormatters: [
-                                    LengthLimitingTextInputFormatter(int.parse(
-                                        box.read(
-                                            "maxlength"))), // Limit input length
+                                    LengthLimitingTextInputFormatter(
+                                      int.parse(box.read("maxlength")),
+                                    ), // Limit input length
                                     FilteringTextInputFormatter
                                         .digitsOnly, // Allow only numeric input
                                   ],
                                   decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 5),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: 5,
+                                    ),
                                     border: InputBorder.none,
-                                    hintText:
-                                        languagesController.tr("PHONE_NUMBER"),
+                                    hintText: languagesController.tr(
+                                      "PHONE_NUMBER",
+                                    ),
                                   ),
                                 ),
                               ),
@@ -203,17 +202,24 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                     image: company != null
                                         ? DecorationImage(
                                             image: NetworkImage(
-                                                company.companyLogo ?? ''),
+                                              company.companyLogo ?? '',
+                                            ),
                                             fit: BoxFit.contain,
                                           )
                                         : null,
                                   ),
                                   child: company == null
-                                      ? Center(
-                                          child: Icon(
-                                          Icons.image_not_supported,
-                                          color: Colors.transparent,
-                                        ))
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            print(company.toString());
+                                          },
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.image_not_supported,
+                                              color: Colors.transparent,
+                                            ),
+                                          ),
+                                        )
                                       : null,
                                 );
                               }),
@@ -221,9 +227,7 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Container(
                         height: 55,
                         width: screenWidth,
@@ -235,18 +239,11 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
-                              Image.asset(
-                                "assets/icons/money.png",
-                                height: 25,
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
+                              Image.asset("assets/icons/money.png", height: 25),
+                              SizedBox(width: 12),
                               Expanded(
                                 child: TextField(
                                   onChanged: (value) {
@@ -259,11 +256,12 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                   inputFormatters: [
                                     FilteringTextInputFormatter
                                         .digitsOnly, // Allow only digits
-                                    CustomAmountFormatter() // Enforce value >= 1
+                                    CustomAmountFormatter(), // Enforce value >= 1
                                   ],
                                   decoration: InputDecoration(
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 5),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: 5,
+                                    ),
                                     border: InputBorder.none,
                                     hintText: languagesController.tr("AMOUNT"),
                                   ),
@@ -273,9 +271,7 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 8,
-                      ),
+                      SizedBox(height: 8),
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -283,8 +279,8 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                         ),
                         height: 50,
                         child: Obx(() {
-                          final convertedList =
-                              conversationController.getConvertedValues();
+                          final convertedList = conversationController
+                              .getConvertedValues();
 
                           if (convertedList.isEmpty) {
                             return Center(child: Text(""));
@@ -302,15 +298,11 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                 children: [
                                   Text(
                                     "${item['symbol']} :",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
+                                    style: TextStyle(fontSize: 15),
                                   ),
                                   Text(
                                     item['value'].toStringAsFixed(2),
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
+                                    style: TextStyle(fontSize: 15),
                                   ),
                                 ],
                               ),
@@ -318,24 +310,30 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                           );
                         }),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       DefaultButton(
                         buttonName: languagesController.tr("RECHARGE_NOW"),
                         onPressed: () {
                           if (customrechargeController
-                                  .numberController.text.isNotEmpty &&
+                                  .numberController
+                                  .text
+                                  .isNotEmpty &&
                               customrechargeController
-                                  .amountController.text.isNotEmpty) {
+                                  .amountController
+                                  .text
+                                  .isNotEmpty) {
                             if (customrechargeController
-                                    .numberController.text.length
+                                    .numberController
+                                    .text
+                                    .length
                                     .toString() !=
                                 box.read("maxlength")) {
                               Get.snackbar(
-                                  languagesController.tr("LENGTH_ERROR"),
-                                  languagesController
-                                      .tr("DO_NOT_MATCH_THE_NUMBER_LENGTH"));
+                                languagesController.tr("LENGTH_ERROR"),
+                                languagesController.tr(
+                                  "DO_NOT_MATCH_THE_NUMBER_LENGTH",
+                                ),
+                              );
                             } else {
                               showDialog(
                                 context: context,
@@ -345,131 +343,135 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                     content: Container(
                                       height: 250,
                                       width: screenWidth,
-                                      child: Obx(
-                                        () {
-                                          if (customrechargeController
-                                              .isLoading.value) {
-                                            return Center(
-                                              child: Container(
-                                                height: 220,
-                                                width: 220,
-                                                child: Lottie.asset(
-                                                    'assets/loties/loading-01.json'),
+                                      child: Obx(() {
+                                        if (customrechargeController
+                                            .isLoading
+                                            .value) {
+                                          return Center(
+                                            child: Container(
+                                              height: 220,
+                                              width: 220,
+                                              child: Lottie.asset(
+                                                'assets/loties/loading-01.json',
                                               ),
-                                            );
-                                          } else if (customrechargeController
-                                              .loadsuccess.value) {
-                                            Future.delayed(Duration(seconds: 2),
-                                                () {
-                                              Navigator.of(context)
-                                                  .pop(); // Close the dialog
-                                            });
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  height: 180,
-                                                  width: 180,
-                                                  child: Lottie.asset(
-                                                      'assets/loties/loadsuccess.json'),
+                                            ),
+                                          );
+                                        } else if (customrechargeController
+                                            .loadsuccess
+                                            .value) {
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 180,
+                                                width: 180,
+                                                child: Lottie.asset(
+                                                  'assets/loties/loadsuccess.json',
                                                 ),
-                                                SizedBox(height: 20),
-                                                ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        AppColors.defaultColor,
-                                                  ),
-                                                  onPressed: () {
-                                                    customrechargeController
-                                                            .loadsuccess.value =
-                                                        false; // Reset success state
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text(
-                                                    languagesController
-                                                        .tr("CLOSE"),
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      AppColors.defaultColor,
                                                 ),
-                                              ],
-                                            );
-                                          } else {
-                                            return Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
+                                                onPressed: () {
+                                                  customrechargeController
+                                                          .loadsuccess
+                                                          .value =
+                                                      false; // Reset success state
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
                                                   languagesController.tr(
-                                                      "DO_YOU_WANT_TO_CONFIRM"),
+                                                    "CLOSE",
+                                                  ),
                                                   style: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 17,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
-                                                SizedBox(height: 40),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            AppColors
-                                                                .defaultColor,
-                                                      ),
-                                                      onPressed: () {
-                                                        customrechargeController
-                                                                .loadsuccess
-                                                                .value =
-                                                            false; // Reset success state
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text(
-                                                        languagesController
-                                                            .tr("CANCEL"),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 10),
-                                                    ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        backgroundColor:
-                                                            Colors.green,
-                                                      ),
-                                                      onPressed: () {
-                                                        customrechargeController
-                                                            .placeOrder();
-                                                      },
-                                                      child: Text(
-                                                        languagesController
-                                                            .tr("CONFIRM"),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                  ],
+                                              ),
+                                            ],
+                                          );
+                                        } else {
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                languagesController.tr(
+                                                  "DO_YOU_WANT_TO_CONFIRM",
                                                 ),
-                                              ],
-                                            );
-                                          }
-                                        },
-                                      ),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 17,
+                                                ),
+                                              ),
+                                              SizedBox(height: 40),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  ElevatedButton(
+                                                    style:
+                                                        ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              AppColors
+                                                                  .defaultColor,
+                                                        ),
+                                                    onPressed: () {
+                                                      customrechargeController
+                                                              .loadsuccess
+                                                              .value =
+                                                          false; // Reset success state
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(
+                                                      languagesController.tr(
+                                                        "CANCEL",
+                                                      ),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  ElevatedButton(
+                                                    style:
+                                                        ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                        ),
+                                                    onPressed: () {
+                                                      customrechargeController
+                                                          .placeOrder();
+                                                    },
+                                                    child: Text(
+                                                      languagesController.tr(
+                                                        "CONFIRM",
+                                                      ),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                      }),
                                     ),
                                   );
                                 },
                               );
                             }
                           } else {
-                            Get.snackbar(languagesController.tr("ERROR"),
-                                languagesController.tr("FILL_DATA_CORRECTLY"));
+                            Get.snackbar(
+                              languagesController.tr("ERROR"),
+                              languagesController.tr("FILL_DATA_CORRECTLY"),
+                            );
                           }
                         },
                       ),
@@ -477,35 +479,39 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
-              Obx(
-                () => customhistoryController.isLoading.value == false
-                    ? Container(
-                        child: customhistoryController
-                                .allorderlist.value.data!.orders.isNotEmpty
-                            ? SizedBox()
-                            : Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/empty.png",
-                                      height: 80,
-                                    ),
-                                    Text(
-                                      languagesController.tr("NO_DATA_FOUND"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      )
-                    : SizedBox(),
-              ),
+
+              // Obx(
+              //   () => customhistoryController.isLoading.value == false
+              //       ? Container(
+              //           child:
+              //               customhistoryController
+              //                   .allorderlist
+              //                   .value
+              //                   .data!
+              //                   .orders
+              //                   .isNotEmpty
+              //               ? SizedBox()
+              //               : Center(
+              //                   child: Column(
+              //                     mainAxisAlignment: MainAxisAlignment.center,
+              //                     children: [
+              //                       Image.asset(
+              //                         "assets/icons/empty.png",
+              //                         height: 80,
+              //                       ),
+              //                       Text(
+              //                         languagesController.tr("NO_DATA_FOUND"),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ),
+              //         )
+              //       : SizedBox(),
+              // ),
               Expanded(
                 child: Obx(
-                  () => customhistoryController.isLoading.value == false &&
+                  () =>
+                      customhistoryController.isLoading.value == false &&
                           customhistoryController.finalList.isNotEmpty
                       ? RefreshIndicator(
                           onRefresh: refresh,
@@ -514,9 +520,7 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                             physics: AlwaysScrollableScrollPhysics(),
                             controller: scrollController,
                             separatorBuilder: (context, index) {
-                              return SizedBox(
-                                height: 5,
-                              );
+                              return SizedBox(height: 5);
                             },
                             itemCount: customhistoryController.finalList.length,
                             itemBuilder: (context, index) {
@@ -530,14 +534,18 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                       builder: (context) => CustomOrderDetails(
                                         createDate: data.createdAt.toString(),
                                         status: data.status.toString(),
-                                        rejectReason:
-                                            data.rejectReason.toString(),
-                                        companyName: data.bundle!.service!
-                                            .company!.companyName
+                                        rejectReason: data.rejectReason
+                                            .toString(),
+                                        companyName: data
+                                            .bundle!
+                                            .service!
+                                            .company!
+                                            .companyName
                                             .toString(),
                                         amount: data.bundle.amount.toString(),
-                                        rechargebleAccount:
-                                            data.rechargebleAccount!.toString(),
+                                        rechargebleAccount: data
+                                            .rechargebleAccount!
+                                            .toString(),
                                         // validityType:
                                         //     data.bundle!.validityType!.toString(),
                                         sellingPrice: data.bundle!.sellingPrice
@@ -560,8 +568,11 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                             .userInfo!
                                             .phone
                                             .toString(),
-                                        companyLogo: data.bundle!.service!
-                                            .company!.companyLogo
+                                        companyLogo: data
+                                            .bundle!
+                                            .service!
+                                            .company!
+                                            .companyLogo
                                             .toString(),
                                       ),
                                     ),
@@ -574,9 +585,11 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: AppColors.listbuilderboxColor,
                                     border: Border.all(
-                                        color: AppColors.borderColor
-                                            .withOpacity(0.40),
-                                        width: 1),
+                                      color: AppColors.borderColor.withOpacity(
+                                        0.40,
+                                      ),
+                                      width: 1,
+                                    ),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
@@ -589,7 +602,10 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                             image: DecorationImage(
                                               fit: BoxFit.fill,
                                               image: NetworkImage(
-                                                data.bundle!.service!.company!
+                                                data
+                                                    .bundle!
+                                                    .service!
+                                                    .company!
                                                     .companyLogo
                                                     .toString(),
                                               ),
@@ -597,14 +613,13 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                             shape: BoxShape.circle,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
+                                        SizedBox(width: 5),
                                         Expanded(
                                           flex: 2,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 5),
+                                            padding: const EdgeInsets.only(
+                                              left: 5,
+                                            ),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -635,9 +650,7 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
+                                        SizedBox(width: 5),
                                         Expanded(
                                           flex: 2,
                                           child: Row(
@@ -681,15 +694,18 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                               children: [
                                                 Text(
                                                   data.status.toString() == "0"
-                                                      ? languagesController
-                                                          .tr("PENDING")
+                                                      ? languagesController.tr(
+                                                          "PENDING",
+                                                        )
                                                       : data.status
-                                                                  .toString() ==
-                                                              "1"
-                                                          ? languagesController
-                                                              .tr("CONFIRMED")
-                                                          : languagesController
-                                                              .tr("REJECTED"),
+                                                                .toString() ==
+                                                            "1"
+                                                      ? languagesController.tr(
+                                                          "CONFIRMED",
+                                                        )
+                                                      : languagesController.tr(
+                                                          "REJECTED",
+                                                        ),
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.black,
@@ -700,9 +716,7 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
+                                        SizedBox(width: 5),
                                         Container(
                                           decoration: BoxDecoration(
                                             color: Colors.white,
@@ -714,9 +728,9 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                                               data.status.toString() == "0"
                                                   ? "assets/icons/pending.png"
                                                   : data.status.toString() ==
-                                                          "1"
-                                                      ? "assets/icons/success.png"
-                                                      : "assets/icons/reject.png",
+                                                        "1"
+                                                  ? "assets/icons/success.png"
+                                                  : "assets/icons/reject.png",
                                               height: 26,
                                             ),
                                           ),
@@ -730,242 +744,237 @@ class _CustomRechargeScreenState extends State<CustomRechargeScreen> {
                           ),
                         )
                       : customhistoryController.finalList.isEmpty
-                          ? SizedBox()
-                          : RefreshIndicator(
-                              onRefresh: refresh,
-                              child: ListView.separated(
-                                shrinkWrap: false,
-                                physics: AlwaysScrollableScrollPhysics(),
-                                controller: scrollController,
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: 5,
-                                  );
-                                },
-                                itemCount:
-                                    customhistoryController.finalList.length,
-                                itemBuilder: (context, index) {
-                                  final data =
-                                      customhistoryController.finalList[index];
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              CustomOrderDetails(
-                                            createDate:
-                                                data.createdAt.toString(),
-                                            status: data.status.toString(),
-                                            rejectReason:
-                                                data.rejectReason.toString(),
-                                            companyName: data.bundle!.service!
-                                                .company!.companyName
-                                                .toString(),
-                                            amount:
-                                                data.bundle.amount.toString(),
-                                            rechargebleAccount: data
-                                                .rechargebleAccount!
-                                                .toString(),
-                                            // validityType:
-                                            //     data.bundle!.validityType!.toString(),
-                                            sellingPrice: data
-                                                .bundle!.sellingPrice
-                                                .toString(),
-                                            // amount: data.bundle!.amount.toString(),
-                                            // buyingPrice: data.bundle!.buyingPrice
-                                            //     .toString(),
-                                            orderID: data.id!.toString(),
-                                            resellerName: dashboardController
-                                                .alldashboardData
-                                                .value
-                                                .data!
-                                                .userInfo!
-                                                .contactName
-                                                .toString(),
-                                            resellerPhone: dashboardController
-                                                .alldashboardData
-                                                .value
-                                                .data!
-                                                .userInfo!
-                                                .phone
-                                                .toString(),
-                                            companyLogo: data.bundle!.service!
-                                                .company!.companyLogo
-                                                .toString(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      height: 55,
-                                      width: screenWidth,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColors.listbuilderboxColor,
-                                        border: Border.all(
-                                            color: AppColors.borderColor
-                                                .withOpacity(0.40),
-                                            width: 1),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: NetworkImage(
-                                                    data.bundle!.service!
-                                                        .company!.companyLogo
-                                                        .toString(),
-                                                  ),
-                                                ),
-                                                shape: BoxShape.circle,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Text(
-                                                        data.bundle!.bundleTitle
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      data.rechargebleAccount
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 12,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Row(
-                                                children: [
-                                                  // Text(
-                                                  //   NumberFormat.currency(
-                                                  //     locale: 'en_US',
-                                                  //     symbol: '',
-                                                  //     decimalDigits: 2,
-                                                  //   ).format(
-                                                  //     double.parse(
-                                                  //       data.bundle!.sellingPrice
-                                                  //           .toString(),
-                                                  //     ),
-                                                  //   ),
-                                                  //   style: TextStyle(
-                                                  //     fontSize: 11,
-                                                  //     fontWeight: FontWeight.w600,
-                                                  //   ),
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   width: 2,
-                                                  // ),
-                                                  Text(
-                                                    data.bundle!.amount
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 15,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Container(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      data.status.toString() ==
-                                                              "0"
-                                                          ? languagesController
-                                                              .tr("PENDING")
-                                                          : data.status
-                                                                      .toString() ==
-                                                                  "1"
-                                                              ? languagesController
-                                                                  .tr(
-                                                                      "CONFIRMED")
-                                                              : languagesController
-                                                                  .tr("REJECTED"),
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Image.asset(
-                                                  data.status.toString() == "0"
-                                                      ? "assets/icons/pending.png"
-                                                      : data.status
-                                                                  .toString() ==
-                                                              "1"
-                                                          ? "assets/icons/success.png"
-                                                          : "assets/icons/reject.png",
-                                                  height: 26,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                      ? SizedBox()
+                      : RefreshIndicator(
+                          onRefresh: refresh,
+                          child: ListView.separated(
+                            shrinkWrap: false,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            controller: scrollController,
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: 5);
+                            },
+                            itemCount: customhistoryController.finalList.length,
+                            itemBuilder: (context, index) {
+                              final data =
+                                  customhistoryController.finalList[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CustomOrderDetails(
+                                        createDate: data.createdAt.toString(),
+                                        status: data.status.toString(),
+                                        rejectReason: data.rejectReason
+                                            .toString(),
+                                        companyName: data
+                                            .bundle!
+                                            .service!
+                                            .company!
+                                            .companyName
+                                            .toString(),
+                                        amount: data.bundle.amount.toString(),
+                                        rechargebleAccount: data
+                                            .rechargebleAccount!
+                                            .toString(),
+                                        // validityType:
+                                        //     data.bundle!.validityType!.toString(),
+                                        sellingPrice: data.bundle!.sellingPrice
+                                            .toString(),
+                                        // amount: data.bundle!.amount.toString(),
+                                        // buyingPrice: data.bundle!.buyingPrice
+                                        //     .toString(),
+                                        orderID: data.id!.toString(),
+                                        resellerName: dashboardController
+                                            .alldashboardData
+                                            .value
+                                            .data!
+                                            .userInfo!
+                                            .contactName
+                                            .toString(),
+                                        resellerPhone: dashboardController
+                                            .alldashboardData
+                                            .value
+                                            .data!
+                                            .userInfo!
+                                            .phone
+                                            .toString(),
+                                        companyLogo: data
+                                            .bundle!
+                                            .service!
+                                            .company!
+                                            .companyLogo
+                                            .toString(),
                                       ),
                                     ),
                                   );
                                 },
-                              ),
-                            ),
+                                child: Container(
+                                  height: 55,
+                                  width: screenWidth,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: AppColors.listbuilderboxColor,
+                                    border: Border.all(
+                                      color: AppColors.borderColor.withOpacity(
+                                        0.40,
+                                      ),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 40,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: NetworkImage(
+                                                data
+                                                    .bundle!
+                                                    .service!
+                                                    .company!
+                                                    .companyLogo
+                                                    .toString(),
+                                              ),
+                                            ),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 5,
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    data.bundle!.bundleTitle
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  data.rechargebleAccount
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Row(
+                                            children: [
+                                              // Text(
+                                              //   NumberFormat.currency(
+                                              //     locale: 'en_US',
+                                              //     symbol: '',
+                                              //     decimalDigits: 2,
+                                              //   ).format(
+                                              //     double.parse(
+                                              //       data.bundle!.sellingPrice
+                                              //           .toString(),
+                                              //     ),
+                                              //   ),
+                                              //   style: TextStyle(
+                                              //     fontSize: 11,
+                                              //     fontWeight: FontWeight.w600,
+                                              //   ),
+                                              // ),
+                                              // SizedBox(
+                                              //   width: 2,
+                                              // ),
+                                              Text(
+                                                data.bundle!.amount.toString(),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  data.status.toString() == "0"
+                                                      ? languagesController.tr(
+                                                          "PENDING",
+                                                        )
+                                                      : data.status
+                                                                .toString() ==
+                                                            "1"
+                                                      ? languagesController.tr(
+                                                          "CONFIRMED",
+                                                        )
+                                                      : languagesController.tr(
+                                                          "REJECTED",
+                                                        ),
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Image.asset(
+                                              data.status.toString() == "0"
+                                                  ? "assets/icons/pending.png"
+                                                  : data.status.toString() ==
+                                                        "1"
+                                                  ? "assets/icons/success.png"
+                                                  : "assets/icons/reject.png",
+                                              height: 26,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                 ),
               ),
             ],

@@ -81,7 +81,7 @@ class ConfirmPinController extends GetxController {
       final orderResults = jsonDecode(response.body);
       if (response.statusCode == 201 && orderResults["success"] == true) {
         loadsuccess.value = true;
-        print(response.body.toString());
+
         resultController.updateResult(response.body);
 
         pinController.clear();

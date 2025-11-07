@@ -21,6 +21,8 @@ class SignInController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool loginsuccess = false.obs;
 
+  String resellerCurrencyRate = "";
+
   Future<void> signIn() async {
     try {
       isLoading.value = true;
@@ -75,6 +77,10 @@ class SignInController extends GetxController {
         box.write(
           "currencyName",
           results["data"]["user_info"]["currency"]["name"],
+        );
+        box.write(
+          "resellerrate",
+          results["data"]["user_info"]["currency"]["exchange_rate_per_usd"],
         );
 
         if (results["success"] == true) {

@@ -569,6 +569,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             historyController.finalList.clear();
                             historyController.initialpage = 1;
                             historyController.fetchHistory();
+
                             // countryListController.fetchCountryData();
                             confirmPinController.loadsuccess.value = false;
 

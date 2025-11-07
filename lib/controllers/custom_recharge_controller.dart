@@ -24,7 +24,7 @@ class CustomRechargeController extends GetxController {
   RxBool isLoading = false.obs;
 
   RxBool loadsuccess = false.obs;
-  RxBool showanimation = false.obs;
+
   Future<bool> placeOrder() async {
     try {
       isLoading.value = true;

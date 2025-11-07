@@ -18,6 +18,7 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../controllers/custom_history_controller.dart';
 import '../global_controller/languages_controller.dart';
 
 class Homepage extends StatefulWidget {
@@ -244,7 +245,7 @@ class _HomepageState extends State<Homepage>
     Color(0xff5DBCAE),
     Color(0xffEA8743),
   ];
-
+  final customhistoryController = Get.find<CustomHistoryController>();
   @override
   Widget build(BuildContext context) {
     fetchDate();
@@ -1584,6 +1585,11 @@ class _HomepageState extends State<Homepage>
                           } else {
                             print("Country list is empty.");
                           }
+                          customhistoryController.finalList.clear();
+                          customhistoryController.initialpage = 1;
+                          // historyController.fetchHistory();
+
+                          customhistoryController.fetchHistory();
 
                           Get.toNamed(customrechargescreen);
                         },

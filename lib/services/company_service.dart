@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,21 +11,22 @@ import '../utils/api_endpoints.dart';
 class CompaniesApi {
   final box = GetStorage();
   Future<CompaniesModel> fetchcompanies() async {
-    final url =
-        Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.companies);
+    final url = Uri.parse(
+      ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.companies,
+    );
     print(url);
 
     var response = await http.get(
       url,
-      headers: {
-        'Authorization': 'Bearer ${box.read("userToken")}',
-      },
+      headers: {'Authorization': 'Bearer ${box.read("userToken")}'},
     );
 
     if (response.statusCode == 200) {
-      print(response.body.toString());
-      final companiesModel =
-          CompaniesModel.fromJson(json.decode(response.body));
+      // print(response.body.toString());
+      final companiesModel = CompaniesModel.fromJson(
+        json.decode(response.body),
+      );
+      print(companiesModel.toJson());
 
       return companiesModel;
     } else {
