@@ -10,11 +10,15 @@ import 'package:http/http.dart' as http;
 import 'package:amutelecom/controllers/country_list_controller.dart';
 import 'package:amutelecom/utils/api_endpoints.dart';
 
+import 'dashboard_controller.dart';
+
 class SignInController extends GetxController {
   final box = GetStorage();
   final SliderController sliderController = Get.put(SliderController());
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final dashboardController = Get.find<DashboardController>();
   // final CountryListController countryListController =
   //     Get.put(CountryListController());
 
@@ -88,6 +92,7 @@ class SignInController extends GetxController {
           passwordController.clear();
           loginsuccess.value = false;
           sliderController.fetchSliderData();
+          dashboardController.fetchDashboardData();
           print(loginsuccess.value);
 
           Fluttertoast.showToast(

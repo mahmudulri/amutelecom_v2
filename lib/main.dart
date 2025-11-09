@@ -2,8 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:get_storage/get_storage.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 import 'controllers/time_zone_controller.dart';
 import 'dependency_injection.dart';
@@ -14,16 +15,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await GetStorage.init();
 
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyD0FlqyjzJCHVSpuRr4CXn35H8IUkeYZiM",
-      authDomain: "afghannetwoosat.firebaseapp.com",
-      projectId: "afghannetwoosat",
-      storageBucket: "afghannetwoosat.firebasestorage.app",
-      messagingSenderId: "538583955286",
-      appId: "1:538583955286:web:f4775e20a0d17a7bbc88f7",
-    ),
-  );
   runApp(
     EasyLocalization(
       supportedLocales: [
@@ -57,6 +48,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     _initTimezone();
   }
 
@@ -82,6 +74,29 @@ class _MyAppState extends State<MyApp> {
       timeZoneController.setTimezoneOffset();
     }
   }
+
+  // Future<void> _checkforUpdate() async {
+  //   await InAppUpdate.checkForUpdate()
+  //       .then((info) {
+  //         setState(() {
+  //           if (info.updateAvailability == UpdateAvailability.updateAvailable) {
+  //             print("update available");
+  //             _update();
+  //           }
+  //         });
+  //       })
+  //       .catchError((error) {
+  //         print(error.toString());
+  //       });
+  // }
+
+  // void _update() async {
+  //   print("Updating");
+  //   await InAppUpdate.startFlexibleUpdate();
+  //   InAppUpdate.completeFlexibleUpdate().then((_) {}).catchError((error) {
+  //     print(error.toString());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

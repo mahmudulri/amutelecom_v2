@@ -5,6 +5,7 @@ import 'package:amutelecom/controllers/slider_controller.dart';
 import 'package:get/get.dart';
 
 import '../controllers/country_list_controller.dart';
+import '../controllers/dashboard_controller.dart';
 
 class SplashBinding implements Bindings {
   @override
@@ -14,5 +15,6 @@ class SplashBinding implements Bindings {
     Get.lazyPut<SliderController>(() => SliderController());
     Get.lazyPut<HistoryController>(() => HistoryController());
     Get.lazyPut<CountryListController>(() => CountryListController());
+    Get.lazyPut<DashboardController>(() => DashboardController());
   }
 }

@@ -106,7 +106,7 @@ class _NewBaseScreenState extends State<NewBaseScreen>
               setState(() {
                 currentIndex = index;
                 if (index == 0) {
-                  dashboardController.fetchDashboardData();
+                  // dashboardController.fetchDashboardData();
                   countryListController.printAfghanistanDetails();
                   historyController.finalList.clear();
                   historyController.initialpage = 1;

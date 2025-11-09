@@ -48,7 +48,6 @@ class _OrdersPageState extends State<OrdersPage> {
     orderlistController.initialpage = 1;
     orderlistController.finalList.clear();
     orderlistController.fetchOrderlistdata();
-    dashboardController.fetchDashboardData();
     scrollController.addListener(refresh);
   }
 
@@ -59,11 +58,7 @@ class _OrdersPageState extends State<OrdersPage> {
   String defaultValue = "";
   String secondDropDown = "";
 
-  // String selectedStatus = "Select Status";
-
   TextEditingController searchController = TextEditingController();
-
-  //  LanguagesController languagesController = Get.put(LanguagesController());
 
   String search = "";
 
@@ -103,7 +98,6 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    // orderlistController.fetchOrderlistdata();
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -130,12 +124,7 @@ class _OrdersPageState extends State<OrdersPage> {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          // image: DecorationImage(
-          //   fit: BoxFit.cover,
-          //   image: AssetImage("assets/images/authback.jpg"),
-          // ),
-        ),
+        decoration: BoxDecoration(),
         height: screenHeight,
         width: screenWidth,
         child: Padding(

@@ -96,228 +96,223 @@ class _SignInScreenState extends State<SignInScreen>
         final shouldExit = await showExitPopup();
         return shouldExit;
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: Container(
-            height: screenHeight,
-            width: screenWidth,
-            child: ListView(
-              children: [
-                ClipPath(
-                  clipper: OvalBottomBorderClipper(),
-                  child: Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                      // color: Colors.red,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/images/sign_in_back.jpg"),
-                      ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          height: screenHeight,
+          width: screenWidth,
+          child: ListView(
+            children: [
+              ClipPath(
+                clipper: OvalBottomBorderClipper(),
+                child: Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    // color: Colors.red,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/images/sign_in_back.jpg"),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundImage: AssetImage("assets/icons/logo.png"),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Welcome back",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundImage: AssetImage("assets/icons/logo.png"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Welcome back",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ],
+              ),
 
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Obx(
-                        () => Center(
-                          child: TextField(
-                            controller: signInController.usernameController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: languagesController.tr("USERNAME"),
-                            ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Obx(
+                      () => Center(
+                        child: TextField(
+                          controller: signInController.usernameController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: languagesController.tr("USERNAME"),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Container(
-                    height: 55,
-                    width: screenWidth,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Obx(
-                        () => Center(
-                          child: TextField(
-                            controller: signInController.passwordController,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: languagesController.tr("PASSWORD"),
-                            ),
+              ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Container(
+                  height: 55,
+                  width: screenWidth,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Obx(
+                      () => Center(
+                        child: TextField(
+                          controller: signInController.passwordController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: languagesController.tr("PASSWORD"),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        historyController.initialpage = 1;
+              ),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      historyController.initialpage = 1;
 
-                        // languageController.fetchlanData(box.read("isoCode"));
+                      // languageController.fetchlanData(box.read("isoCode"));
 
-                        if (signInController.usernameController.text.isEmpty ||
-                            signInController.passwordController.text.isEmpty) {
-                          Get.snackbar(
-                            "Oops!",
-                            "Fill the text fields",
-                            colorText: Colors.white,
-                            duration: Duration(seconds: 1),
-                          );
-                        } else {
-                          await signInController.signIn();
+                      if (signInController.usernameController.text.isEmpty ||
+                          signInController.passwordController.text.isEmpty) {
+                        Get.snackbar(
+                          "Oops!",
+                          "Fill the text fields",
+                          colorText: Colors.white,
+                          duration: Duration(seconds: 1),
+                        );
+                      } else {
+                        await signInController.signIn();
 
-                          if (signInController.loginsuccess.value == false) {
-                            // Navigating to the BottomNavigationbar page
+                        if (signInController.loginsuccess.value == false) {
+                          // Navigating to the BottomNavigationbar page
 
-                            historyController.finalList.clear();
-                            historyController.initialpage = 1;
-                            historyController.fetchHistory();
-                            countryListController.printAfghanistanDetails();
+                          historyController.finalList.clear();
+                          historyController.initialpage = 1;
+                          historyController.fetchHistory();
+                          countryListController.printAfghanistanDetails();
 
-                            Get.toNamed(newbasescreen);
+                          Get.toNamed(newbasescreen);
 
-                            if (box.read("direction") == "rtl") {
-                              setState(() {
-                                EasyLocalization.of(
-                                  context,
-                                )!.setLocale(Locale('ar', 'AE'));
-                              });
-                            } else {
-                              setState(() {
-                                EasyLocalization.of(
-                                  context,
-                                )!.setLocale(Locale('en', 'US'));
-                              });
-                            }
+                          if (box.read("direction") == "rtl") {
+                            setState(() {
+                              EasyLocalization.of(
+                                context,
+                              )!.setLocale(Locale('ar', 'AE'));
+                            });
                           } else {
-                            print("Navigation conditions not met.");
+                            setState(() {
+                              EasyLocalization.of(
+                                context,
+                              )!.setLocale(Locale('en', 'US'));
+                            });
                           }
+                        } else {
+                          print("Navigation conditions not met.");
                         }
-                      },
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                          child: Center(
-                            child: Obx(
-                              () => Text(
-                                signInController.isLoading.value == false
-                                    ? languagesController.tr("LOGIN")
-                                    : languagesController.tr("PLEASE_WAIT"),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                ),
+                      }
+                    },
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        child: Center(
+                          child: Obx(
+                            () => Text(
+                              signInController.isLoading.value == false
+                                  ? languagesController.tr("LOGIN")
+                                  : languagesController.tr("PLEASE_WAIT"),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 20),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
 
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 30),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                //     children: [
-                //       GestureDetector(
-                //         onTap: () {
-                //           whatsapp();
-                //         },
-                //         child: Container(
-                //           height: 30,
-                //           width: 30,
-                //           child: Image.asset("assets/icons/whatsapp.png"),
-                //         ),
-                //       ),
-                //       SizedBox(
-                //         width: 15,
-                //       ),
-                //       Text(
-                //         getText("NEED_HELP", defaultValue: "Need Help"),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                SizedBox(height: 80),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "Made by : Woosat",
-                          style: TextStyle(color: Colors.black, fontSize: 13),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 30),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: [
+              //       GestureDetector(
+              //         onTap: () {
+              //           whatsapp();
+              //         },
+              //         child: Container(
+              //           height: 30,
+              //           width: 30,
+              //           child: Image.asset("assets/icons/whatsapp.png"),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 15,
+              //       ),
+              //       Text(
+              //         getText("NEED_HELP", defaultValue: "Need Help"),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(height: 80),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        "Made by : Woosat",
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                      Text(
+                        "www.woosat.com",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
                         ),
-                        Text(
-                          "www.woosat.com",
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
