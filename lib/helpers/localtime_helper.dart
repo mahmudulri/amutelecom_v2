@@ -4,42 +4,30 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 final TimeZoneController timeZoneController = Get.put(TimeZoneController());
-
-Text convertToLocalTime(String utcTimeString) {
-  String localTimeString;
+String convertToDate(String utcTimeString) {
   try {
-    // Parse the UTC time
     DateTime utcTime = DateTime.parse(utcTimeString);
 
-    // Calculate the offset duration
-    Duration offset = Duration(
-      hours: int.parse(timeZoneController.hour),
-      minutes: int.parse(timeZoneController.minute),
-    );
+    Duration offset = DateTime.now().timeZoneOffset;
 
-    // Apply the offset (subtracting for negative)
+    DateTime localTime = utcTime.add(offset);
 
-    if (timeZoneController.sign == "+") {
-      DateTime localTime = utcTime.add(offset);
-      String formattedTime = DateFormat(
-        'yyyy-MM-dd hh:mm:ss a',
-        'en_US',
-      ).format(localTime);
-      localTimeString = '$formattedTime';
-    } else {
-      DateTime localTime = utcTime.subtract(offset);
-      String formattedTime = DateFormat(
-        'yyyy-MM-dd hh:mm:ss a',
-        'en_US',
-      ).format(localTime);
-
-      localTimeString = '$formattedTime';
-    }
+    return DateFormat('yyyy-MM-dd', 'en_US').format(localTime);
   } catch (e) {
-    localTimeString = '';
+    return "";
   }
-  return Text(
-    localTimeString,
-    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-  );
+}
+
+String convertToLocalTime(String utcTimeString) {
+  try {
+    DateTime utcTime = DateTime.parse(utcTimeString);
+
+    Duration offset = DateTime.now().timeZoneOffset;
+
+    DateTime localTime = utcTime.add(offset);
+
+    return DateFormat('hh:mm:ss a', 'en_US').format(localTime);
+  } catch (e) {
+    return "";
+  }
 }

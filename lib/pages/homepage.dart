@@ -153,43 +153,9 @@ class _HomepageState extends State<Homepage>
   late TabController _tabController;
   double containerHeight = 220.0;
 
-  String myversion = "1.0.12";
   var maindata;
   var currentversion;
   String? checknow;
-
-  void _showUpdateDialog() {
-    showDialog(
-      context: context,
-      // barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(languagesController.tr("UPDATE_AVAILABLE")),
-          content: Text(
-            "${languagesController.tr("UPDATE_TITLE")} $currentversion.",
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _launchURL(
-                  "https://play.google.com/store/apps/details?id=com.woosat.amu_update",
-                );
-              },
-              child: Text(languagesController.tr("UPDATE_NOW")),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   void dispose() {
@@ -252,7 +218,6 @@ class _HomepageState extends State<Homepage>
     var screenWidth = MediaQuery.of(context).size.width;
 
     return Obx(() {
-      // প্রথমে check করি যদি ড্যাশবোর্ড লোডিং বা slider লোডিং চলছে
       if (dashboardController.isLoading.value) {
         return Scaffold(
           body: Center(

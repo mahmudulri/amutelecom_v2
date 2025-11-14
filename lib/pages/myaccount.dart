@@ -70,7 +70,7 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
               height: screenHeight,
               width: screenWidth,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
                   children: [
                     Container(
@@ -382,7 +382,7 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
                                 children: [
                                   Image.asset(
                                     "assets/icons/set_sell_price.png",
-                                    height: 35,
+                                    height: 30,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 8),
@@ -402,7 +402,7 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
                                 children: [
                                   Image.asset(
                                     "assets/icons/set_vendor_sell_price.png",
-                                    height: 35,
+                                    height: 30,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 8),
@@ -422,12 +422,32 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
                                 children: [
                                   Image.asset(
                                     "assets/icons/padlock.png",
-                                    height: 35,
+                                    height: 30,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 8),
                                   Text(
                                     languagesController.tr("CHANGE_PASSWORD"),
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(changepinscreen);
+                              },
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    "assets/icons/key.png",
+                                    height: 30,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    languagesController.tr("CHANGE_PIN"),
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -442,7 +462,7 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
                                 children: [
                                   Image.asset(
                                     "assets/icons/help.png",
-                                    height: 35,
+                                    height: 30,
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 8),
@@ -459,7 +479,7 @@ class _MyaccountScreenState extends State<MyaccountScreen> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      height: 200,
+                      height: 150,
                       width: screenWidth,
                       decoration: BoxDecoration(
                         color: Colors.white,

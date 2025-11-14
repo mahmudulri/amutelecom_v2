@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final subResellerModel = subResellerModelFromJson(jsonString);
-
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
@@ -16,12 +12,14 @@ class SubResellerModel {
   final int? code;
   final String? message;
   final Data? data;
+  final Payload? payload;
 
   SubResellerModel({
     this.success,
     this.code,
     this.message,
     this.data,
+    this.payload,
   });
 
   factory SubResellerModel.fromJson(Map<String, dynamic> json) =>
@@ -30,31 +28,32 @@ class SubResellerModel {
         code: json["code"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
+        payload: Payload.fromJson(json["payload"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "code": code,
-        "message": message,
-        "data": data!.toJson(),
-      };
+    "success": success,
+    "code": code,
+    "message": message,
+    "data": data!.toJson(),
+    "payload": payload!.toJson(),
+  };
 }
 
 class Data {
   final List<Reseller> resellers;
 
-  Data({
-    required this.resellers,
-  });
+  Data({required this.resellers});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        resellers: List<Reseller>.from(
-            json["resellers"].map((x) => Reseller.fromJson(x))),
-      );
+    resellers: List<Reseller>.from(
+      json["resellers"].map((x) => Reseller.fromJson(x)),
+    ),
+  );
 
   Map<String, dynamic> toJson() => {
-        "resellers": List<dynamic>.from(resellers.map((x) => x.toJson())),
-      };
+    "resellers": List<dynamic>.from(resellers.map((x) => x.toJson())),
+  };
 }
 
 class Reseller {
@@ -109,54 +108,92 @@ class Reseller {
   });
 
   factory Reseller.fromJson(Map<String, dynamic> json) => Reseller(
-        id: json["id"] == null ? null : json["id"],
-        userId: json["user_id"] == null ? null : json["user_id"],
-        resellerName:
-            json["reseller_name"] == null ? null : json["reseller_name"],
-        contactName: json["contact_name"] == null ? null : json["contact_name"],
-        resellerType:
-            json["reseller_type"] == null ? null : json["reseller_type"],
-        profileImageUrl: json["profile_image_url"],
-        phone: json["phone"] == null ? null : json["phone"],
-        countryId: json["country_id"] == null ? null : json["country_id"],
-        provinceId: json["province_id"] == null ? null : json["province_id"],
-        districtsId: json["districts_id"] == null ? null : json["districts_id"],
-        isResellerVerified: json["is_reseller_verified"] == null
-            ? null
-            : json["is_reseller_verified"],
-        status: json["status"] == null ? null : json["status"],
-        balance: json["balance"] == null ? null : json["balance"],
-        loanBalance: json["loan_balance"] == null ? null : json["loan_balance"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"] == null ? null : json["deleted_at"],
-        code: json["code"] == null ? null : json["code"],
-        country: json["country"] == null ? null : json["country"],
-        province: json["province"] == null ? null : json["province"],
-        districts: json["districts"] == null ? null : json["districts"],
-      );
+    id: json["id"] == null ? null : json["id"],
+    userId: json["user_id"] == null ? null : json["user_id"],
+    resellerName: json["reseller_name"] == null ? null : json["reseller_name"],
+    contactName: json["contact_name"] == null ? null : json["contact_name"],
+    resellerType: json["reseller_type"] == null ? null : json["reseller_type"],
+    profileImageUrl: json["profile_image_url"],
+    phone: json["phone"] == null ? null : json["phone"],
+    countryId: json["country_id"] == null ? null : json["country_id"],
+    provinceId: json["province_id"] == null ? null : json["province_id"],
+    districtsId: json["districts_id"] == null ? null : json["districts_id"],
+    isResellerVerified: json["is_reseller_verified"] == null
+        ? null
+        : json["is_reseller_verified"],
+    status: json["status"] == null ? null : json["status"],
+    balance: json["balance"] == null ? null : json["balance"],
+    loanBalance: json["loan_balance"] == null ? null : json["loan_balance"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    deletedAt: json["deleted_at"] == null ? null : json["deleted_at"],
+    code: json["code"] == null ? null : json["code"],
+    country: json["country"] == null ? null : json["country"],
+    province: json["province"] == null ? null : json["province"],
+    districts: json["districts"] == null ? null : json["districts"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "user_id": userId,
-        "reseller_name": resellerName,
-        "contact_name": contactName,
-        "reseller_type": resellerType,
-        "profile_image_url": profileImageUrl,
-        "phone": phone,
-        "country_id": countryId,
-        "province_id": provinceId,
-        "districts_id": districtsId,
-        "is_reseller_verified": isResellerVerified,
-        "status": status,
-        "balance": balance,
-        "loan_balance": loanBalance,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
-        "deleted_at": deletedAt,
-        "code": code,
-        "country": country,
-        "province": province,
-        "districts": districts,
-      };
+    "id": id,
+    "user_id": userId,
+    "reseller_name": resellerName,
+    "contact_name": contactName,
+    "reseller_type": resellerType,
+    "profile_image_url": profileImageUrl,
+    "phone": phone,
+    "country_id": countryId,
+    "province_id": provinceId,
+    "districts_id": districtsId,
+    "is_reseller_verified": isResellerVerified,
+    "status": status,
+    "balance": balance,
+    "loan_balance": loanBalance,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "deleted_at": deletedAt,
+    "code": code,
+    "country": country,
+    "province": province,
+    "districts": districts,
+  };
+}
+
+class Payload {
+  final Pagination? pagination;
+
+  Payload({this.pagination});
+
+  factory Payload.fromJson(Map<String, dynamic> json) =>
+      Payload(pagination: Pagination.fromJson(json["pagination"]));
+
+  Map<String, dynamic> toJson() => {"pagination": pagination!.toJson()};
+}
+
+class Pagination {
+  final int? page;
+
+  final int? lastPage;
+
+  final int? itemsPerPage;
+  final int? total;
+
+  Pagination({this.page, this.lastPage, this.itemsPerPage, this.total});
+
+  factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
+    page: json["page"],
+
+    lastPage: json["last_page"],
+
+    itemsPerPage: json["items_per_page"],
+    total: json["total"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "page": page,
+
+    "last_page": lastPage,
+
+    "items_per_page": itemsPerPage,
+    "total": total,
+  };
 }

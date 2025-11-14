@@ -194,31 +194,31 @@ class _AddSubResellerScreenState extends State<AddSubResellerScreen> {
                       hintText: languagesController.tr("ENTER_PHONE_NUMBER"),
                       controller: addSubResellerController.phoneController,
                     ),
-                    SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          languagesController.tr("EMAIL"),
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: screenHeight * 0.020,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "(${languagesController.tr("OPTIONAL")})",
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: screenHeight * 0.015,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    AuthTextField(
-                      hintText: languagesController.tr("ENTER_EMAIL_ADDRESS"),
-                      controller: addSubResellerController.emailController,
-                    ),
+                    // SizedBox(height: 5),
+                    // Row(
+                    //   children: [
+                    //     Text(
+                    //       languagesController.tr("EMAIL"),
+                    //       style: TextStyle(
+                    //         color: Colors.grey.shade600,
+                    //         fontSize: screenHeight * 0.020,
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: 10),
+                    //     Text(
+                    //       "(${languagesController.tr("OPTIONAL")})",
+                    //       style: TextStyle(
+                    //         color: Colors.grey.shade600,
+                    //         fontSize: screenHeight * 0.015,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // SizedBox(height: 5),
+                    // AuthTextField(
+                    //   hintText: languagesController.tr("ENTER_EMAIL_ADDRESS"),
+                    //   controller: addSubResellerController.emailController,
+                    // ),
                     SizedBox(height: 5),
                     Text(
                       languagesController.tr("COMMISSION_GROUP"),

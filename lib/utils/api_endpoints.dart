@@ -5,8 +5,7 @@ class ApiEndPoints {
   // static String baseUrl =
   //     "https://app-api-vpro-wl-waslat.milliekit.com/api/reseller/";
 
-  // static String languageUrl =
-  //     "https://app-api-amu-25.amutelecom.com/api/locale/";
+  // static String baseUrl = "https://app-api-vpro-tt.taktelcom.com/api/reseller/";
 
   static OtherendPoints otherendpoints = OtherendPoints();
 }

@@ -6,28 +6,33 @@ import '../models/transaction_model.dart';
 import '../services/transaction_service.dart';
 
 class TransactionController extends GetxController {
-  @override
-  void onInit() {
-    fetchTransactionData();
-    super.onInit();
-  }
+  RxList<ResellerBalanceTransaction> finalList =
+      <ResellerBalanceTransaction>[].obs;
 
   var isLoading = false.obs;
+
+  int initialpage = 1;
 
   var alltransactionlist = TransactionModel().obs;
 
   void fetchTransactionData() async {
     try {
       isLoading(true);
-      await TransactionApi().fetchTransaction().then((value) {
+
+      await TransactionApi().fetchTransaction(initialpage).then((value) {
         alltransactionlist.value = value;
+
+        if (alltransactionlist.value.data != null) {
+          finalList.addAll(
+            alltransactionlist.value.data!.resellerBalanceTransactions,
+          );
+        }
 
         isLoading(false);
       });
-
-      isLoading(false);
     } catch (e) {
       print(e.toString());
+      isLoading(false);
     }
   }
 }

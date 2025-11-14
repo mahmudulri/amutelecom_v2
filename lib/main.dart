@@ -32,7 +32,7 @@ void main() async {
   );
 
   //// used for check real time internet access
-  // DependencyInjection.init();
+  DependencyInjection.init();
 }
 
 class MyApp extends StatefulWidget {
@@ -48,55 +48,22 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
-    _initTimezone();
+    initTimezone();
   }
 
-  Future<void> _initTimezone() async {
-    try {
-      final timezoneInfo = await FlutterTimezone.getLocalTimezone();
+  void initTimezone() {
+    Duration offset = DateTime.now().timeZoneOffset;
 
-      print('TimezoneInfo object: $timezoneInfo');
+    timeZoneController.sign = offset.isNegative ? "-" : "+";
+    timeZoneController.hour = offset.inHours.abs().toString().padLeft(2, '0');
+    timeZoneController.minute = (offset.inMinutes.abs() % 60)
+        .toString()
+        .padLeft(2, '0');
 
-      timeZoneController.myzone = timezoneInfo.toString();
-
-      // Apply your offset logic
-      timeZoneController.setTimezoneOffset();
-      timeZoneController.extractTimeDetails();
-
-      print('Detected Timezone: ${timeZoneController.myzone}');
-      print(
-        'UTC Offset: ${timeZoneController.sign}${timeZoneController.hour}:${timeZoneController.minute}',
-      );
-    } catch (e) {
-      print('Error getting timezone: $e');
-      timeZoneController.myzone = 'UTC';
-      timeZoneController.setTimezoneOffset();
-    }
+    print(
+      "Offset = ${timeZoneController.sign}${timeZoneController.hour}:${timeZoneController.minute}",
+    );
   }
-
-  // Future<void> _checkforUpdate() async {
-  //   await InAppUpdate.checkForUpdate()
-  //       .then((info) {
-  //         setState(() {
-  //           if (info.updateAvailability == UpdateAvailability.updateAvailable) {
-  //             print("update available");
-  //             _update();
-  //           }
-  //         });
-  //       })
-  //       .catchError((error) {
-  //         print(error.toString());
-  //       });
-  // }
-
-  // void _update() async {
-  //   print("Updating");
-  //   await InAppUpdate.startFlexibleUpdate();
-  //   InAppUpdate.completeFlexibleUpdate().then((_) {}).catchError((error) {
-  //     print(error.toString());
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

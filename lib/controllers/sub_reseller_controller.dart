@@ -6,11 +6,9 @@ import '../models/dashboard_data_model.dart';
 import '../models/sub_reseller_model.dart';
 
 class SubresellerController extends GetxController {
-  @override
-  void onInit() {
-    fetchSubReseller();
-    super.onInit();
-  }
+  RxList<Reseller> finalList = <Reseller>[].obs;
+
+  int initialpage = 2;
 
   var isLoading = false.obs;
 
@@ -19,8 +17,12 @@ class SubresellerController extends GetxController {
   void fetchSubReseller() async {
     try {
       isLoading(true);
-      await SubResellerApi().fetchSubReseller().then((value) {
+      await SubResellerApi().fetchSubReseller(initialpage).then((value) {
         allsubresellerData.value = value;
+
+        if (allsubresellerData.value.data != null) {
+          finalList.addAll(allsubresellerData.value.data!.resellers);
+        }
 
         isLoading(false);
       });

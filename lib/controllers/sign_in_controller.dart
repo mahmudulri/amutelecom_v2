@@ -91,7 +91,7 @@ class SignInController extends GetxController {
           usernameController.clear();
           passwordController.clear();
           loginsuccess.value = false;
-          sliderController.fetchSliderData();
+
           dashboardController.fetchDashboardData();
           print(loginsuccess.value);
 
