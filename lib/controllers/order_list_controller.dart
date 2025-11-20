@@ -4,36 +4,74 @@ import 'package:amutelecom/models/orders_list_model.dart';
 import 'package:amutelecom/services/order_list_service.dart';
 
 class OrderlistController extends GetxController {
-  String filterDate = "order_status=0";
-  String orderstatus = "";
-  int initialpage = 1;
+  RxList<Order> finalList = <Order>[].obs;
 
-  RxList finalList = <Order>[].obs;
+  RxBool isLoading = false.obs; // First page load
+  RxBool isFetchingMore = false.obs; // Pagination load
+  RxBool isLastPage = false.obs; // No more pages
 
-  var isLoading = false.obs;
+  int currentPage = 1;
+  int totalPages = 1;
 
-  var allorderlist = OrderListModel().obs;
+  Rx<OrderListModel> allorderlist = OrderListModel().obs;
 
-  void fetchOrderlistdata() async {
+  /// ********** Fetch First Page **********
+  Future<void> fetchOrderlistdata() async {
     try {
       isLoading(true);
-      await OrderListApi().fetchorderList(initialpage).then((value) {
-        allorderlist.value = value;
 
-        if (allorderlist.value.data != null) {
-          finalList.addAll(allorderlist.value.data!.orders);
-        }
-        // print(finalList.length.toString());
-        // finalList.forEach((order) {
-        //   print(order.id.toString());
-        // });
+      currentPage = 1;
+      isLastPage(false);
+      finalList.clear();
 
-        isLoading(false);
-      });
+      final value = await OrderListApi().fetchorderList(currentPage);
 
-      isLoading(false);
+      allorderlist.value = value;
+
+      // Total pages from API
+      totalPages = value.payload?.pagination.totalPages ?? 1;
+
+      if (value.data != null) {
+        finalList.addAll(value.data!.orders);
+      }
     } catch (e) {
-      print(e.toString());
+      print("ERROR: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  /// ********** Pagination: Fetch Next Page **********
+  Future<void> fetchMore() async {
+    if (isFetchingMore.value || isLastPage.value) return;
+
+    if (currentPage >= totalPages) {
+      isLastPage(true);
+      print("End...............................End");
+      return;
+    }
+
+    try {
+      isFetchingMore(true);
+
+      currentPage++;
+
+      print("Loading Page: $currentPage");
+
+      final value = await OrderListApi().fetchorderList(currentPage);
+
+      if (value.data != null) {
+        finalList.addAll(value.data!.orders);
+      }
+
+      if (currentPage >= totalPages) {
+        isLastPage(true);
+        print("End...............................End");
+      }
+    } catch (e) {
+      print("ERROR: $e");
+    } finally {
+      isFetchingMore(false);
     }
   }
 }

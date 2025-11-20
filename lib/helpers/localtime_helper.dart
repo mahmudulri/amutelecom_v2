@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-final TimeZoneController timeZoneController = Get.put(TimeZoneController());
 String convertToDate(String utcTimeString) {
   try {
     DateTime utcTime = DateTime.parse(utcTimeString);

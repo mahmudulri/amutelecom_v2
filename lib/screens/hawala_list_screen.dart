@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../controllers/branch_controller.dart';
+import '../controllers/dashboard_controller.dart';
 import '../controllers/hawala_cancel_controller.dart';
 import '../controllers/hawala_list_controller.dart';
 import '../global_controller/languages_controller.dart';
 import '../helpers/capture_image_helper.dart';
+import '../helpers/localtime_helper.dart';
 import '../helpers/share_image_helper.dart';
+import '../models/branch_model.dart';
 import '../utils/colors.dart';
 import 'create_hawala_screen.dart';
 
@@ -23,12 +27,17 @@ class _HawalaListScreenState extends State<HawalaListScreen> {
 
   LanguagesController languagesController = Get.put(LanguagesController());
 
+  BranchController branchController = Get.put(BranchController());
+
+  final dashboardController = Get.find<DashboardController>();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     hawalalistController.fetchhawala();
+    branchController.fetchallbranch();
   }
 
   @override
@@ -137,7 +146,9 @@ class _HawalaListScreenState extends State<HawalaListScreen> {
               SizedBox(height: 10),
               Expanded(
                 child: Obx(
-                  () => hawalalistController.isLoading.value == false
+                  () =>
+                      hawalalistController.isLoading.value == false &&
+                          branchController.isLoading.value == false
                       ? ListView.separated(
                           physics: BouncingScrollPhysics(),
                           separatorBuilder: (context, index) {
@@ -157,6 +168,28 @@ class _HawalaListScreenState extends State<HawalaListScreen> {
                                 .orders![index];
                             return GestureDetector(
                               onTap: () {
+                                int id =
+                                    int.tryParse(
+                                      data.hawalaBranchId.toString(),
+                                    ) ??
+                                    0;
+
+                                final branch = branchController
+                                    .allbranch
+                                    .value
+                                    .data
+                                    ?.hawalabranches
+                                    ?.firstWhere(
+                                      (b) => b.id == id,
+                                      orElse: () => Hawalabranch(
+                                        id: 0,
+                                        name: "Not found",
+                                        address: "Not found",
+                                        phoneNumber: "Not found",
+                                      ),
+                                    );
+
+                                print(branch?.name);
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -170,9 +203,21 @@ class _HawalaListScreenState extends State<HawalaListScreen> {
                                         hawalaNumber: data.hawalaNumber,
                                         status: data.status,
                                         branchID: data.hawalaBranchId,
+                                        branchName: branch!.name.toString(),
+                                        address: branch.address.toString(),
+                                        phoneNumber: branch.phoneNumber
+                                            .toString(),
                                         senderName: data.senderName,
                                         receiverName: data.receiverName,
                                         fatherName: data.receiverFatherName,
+                                        providerName: dashboardController
+                                            .alldashboardData
+                                            .value
+                                            .data!
+                                            .userInfo!
+                                            .contactName
+                                            .toString(),
+                                        date: data.createdAt.toString(),
                                         idcardnumber: data.receiverIdCardNumber,
                                         amount: data.hawalaAmount,
                                         hawalacurrencyRate:
@@ -287,6 +332,7 @@ class _HawalaListScreenState extends State<HawalaListScreen> {
                                             ],
                                           ),
                                           SizedBox(height: 3),
+
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -389,11 +435,16 @@ class HawalaDetailsDialog extends StatelessWidget {
     this.hawalaNumber,
     this.status,
     this.branchID,
+    this.branchName,
+    this.address,
+    this.phoneNumber,
     this.senderName,
     this.receiverName,
     this.fatherName,
+    this.providerName,
     this.idcardnumber,
     this.amount,
+    this.date,
     this.hawalacurrencyRate,
     this.hawalacurrencyCode,
     this.resellercurrencyCode,
@@ -405,11 +456,16 @@ class HawalaDetailsDialog extends StatelessWidget {
   String? hawalaNumber;
   String? status;
   String? branchID;
+  String? branchName;
+  String? address;
+  String? phoneNumber;
   String? senderName;
   String? receiverName;
   String? fatherName;
+  String? providerName;
   String? idcardnumber;
   String? amount;
+  String? date;
   String? hawalacurrencyRate;
   String? hawalacurrencyCode;
   String? resellercurrencyCode;
@@ -418,6 +474,7 @@ class HawalaDetailsDialog extends StatelessWidget {
   String? paidbyreceiver;
 
   LanguagesController languagesController = Get.put(LanguagesController());
+  BranchController branchController = Get.put(BranchController());
 
   final box = GetStorage();
 
@@ -514,23 +571,6 @@ class HawalaDetailsDialog extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                languagesController.tr("HAWALA_AMOUNT"),
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                amount.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
                                 languagesController.tr("SENDER_NAME"),
                                 style: TextStyle(fontSize: 14),
                               ),
@@ -558,6 +598,20 @@ class HawalaDetailsDialog extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text(
+                                languagesController.tr("RECEIVER_FATHERS_NAME"),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                fatherName.toString(),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               Flexible(
                                 child: Text(
                                   languagesController.tr(
@@ -572,20 +626,61 @@ class HawalaDetailsDialog extends StatelessWidget {
                               ),
                             ],
                           ),
+
                           SizedBox(height: 5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                languagesController.tr("RECEIVER_FATHERS_NAME"),
+                                languagesController.tr("AMOUNT"),
                                 style: TextStyle(fontSize: 14),
                               ),
                               Text(
-                                fatherName.toString(),
+                                amount.toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                languagesController.tr("SERVICE_PROVIDER"),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                providerName.toString(),
                                 style: TextStyle(fontSize: 14),
                               ),
                             ],
                           ),
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Text(
+                                languagesController.tr("DATE"),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              Spacer(),
+                              Text(
+                                convertToDate(date.toString()),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                convertToLocalTime(date.toString()),
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+
+                          Text(branchName.toString()),
+                          Text(address.toString()),
+                          Text(phoneNumber.toString()),
+
                           SizedBox(height: 5),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

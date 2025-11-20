@@ -26,49 +26,19 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   final ScrollController scrollController = ScrollController();
 
-  Future<void> refresh() async {
-    final int totalPages =
-        transactionController
-            .alltransactionlist
-            .value
-            .payload
-            ?.pagination!
-            .lastPage ??
-        0;
-    final int currentPage = transactionController.initialpage;
-
-    // Prevent loading more pages if we've reached the last page
-    if (currentPage >= totalPages) {
-      print(
-        "End..........................................End.....................",
-      );
-      return;
-    }
-
-    // Check if the scroll position is at the bottom
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      transactionController.initialpage++;
-
-      // Prevent fetching if the next page exceeds total pages
-      if (transactionController.initialpage <= totalPages) {
-        print("Load More...................");
-        transactionController.fetchTransactionData();
-      } else {
-        transactionController.initialpage =
-            totalPages; // Reset to the last valid page
-        print("Already on the last page");
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    transactionController.initialpage = 1;
+    // transactionController.initialpage = 1;
     transactionController.finalList.clear();
     transactionController.fetchTransactionData();
-    scrollController.addListener(refresh);
+    // scrollController.addListener(refresh);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 100) {
+        transactionController.fetchMore();
+      }
+    });
   }
 
   @override
@@ -228,7 +198,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       transactionController.isLoading.value == false &&
                           transactionController.finalList.isNotEmpty
                       ? RefreshIndicator(
-                          onRefresh: refresh,
+                          onRefresh: () async {
+                            await transactionController.fetchTransactionData();
+                          },
                           child: ListView.builder(
                             shrinkWrap: false,
                             controller: scrollController,
@@ -237,209 +209,191 @@ class _TransactionsPageState extends State<TransactionsPage> {
                             itemBuilder: (context, index) {
                               final data =
                                   transactionController.finalList[index];
-
                               return Card(
-                                color: Colors.white,
+                                elevation: 4,
+                                margin: EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 4,
+                                ), // Spacing between cards
+                                shadowColor: Colors.black12,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                                 child: Container(
-                                  width: screenWidth,
                                   decoration: BoxDecoration(
-                                    // color: Colors.grey,
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(8),
-                                          bottomRight: Radius.circular(8),
-                                        ),
-                                      ),
-                                      child: Container(
-                                        width: screenWidth,
-                                        child: Column(
-                                          spacing: 3.0,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  languagesController.tr(
-                                                    "NAME",
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: IntrinsicHeight(
+                                      child: Row(
+                                        children: [
+                                          // 1. Colored Status Strip (Left Side)
+                                          Container(
+                                            width: 6,
+                                            color:
+                                                data.status.toString() ==
+                                                    "debit"
+                                                ? Colors.red
+                                                : Colors.green,
+                                          ),
+
+                                          // 2. Main Content Area
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(
+                                                16.0,
+                                              ),
+                                              child: Column(
+                                                spacing:
+                                                    8.0, // Requires Flutter 3.24+, otherwise use SizedBox
+                                                children: [
+                                                  // --- Name Row ---
+                                                  _buildInfoRow(
+                                                    label: languagesController
+                                                        .tr("NAME"),
+                                                    value: data
+                                                        .reseller!
+                                                        .contactName
+                                                        .toString(),
+                                                    valueColor: Colors.black87,
                                                   ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w600,
+
+                                                  Divider(
+                                                    height: 12,
+                                                    thickness: 0.5,
+                                                    color: Colors.grey[200],
                                                   ),
-                                                ),
-                                                Text(
-                                                  data.reseller!.contactName
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500,
+
+                                                  // --- Date Row ---
+                                                  _buildInfoRow(
+                                                    label: languagesController
+                                                        .tr("DATE"),
+                                                    value: convertToDate(
+                                                      data.createdAt.toString(),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  languagesController.tr(
-                                                    "DATE",
+
+                                                  // --- Time Row ---
+                                                  _buildInfoRow(
+                                                    label: languagesController
+                                                        .tr("TIME"),
+                                                    value: convertToLocalTime(
+                                                      data.createdAt.toString(),
+                                                    ),
                                                   ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  convertToDate(
-                                                    data.createdAt.toString(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  languagesController.tr(
-                                                    "TIME",
-                                                  ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  convertToLocalTime(
-                                                    data.createdAt.toString(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  languagesController.tr(
-                                                    "TRANSACTIONS_TYPE",
-                                                  ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  data.status.toString() ==
-                                                          "debit"
-                                                      ? languagesController.tr(
-                                                          "DEBIT",
-                                                        )
-                                                      : languagesController.tr(
-                                                          "CREDIT",
+
+                                                  // --- Type/Status Row ---
+                                                  _buildInfoRow(
+                                                    label: languagesController
+                                                        .tr(
+                                                          "TRANSACTIONS_TYPE",
                                                         ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color:
+                                                    value:
+                                                        data.status
+                                                                .toString() ==
+                                                            "debit"
+                                                        ? languagesController
+                                                              .tr("DEBIT")
+                                                        : languagesController
+                                                              .tr("CREDIT"),
+                                                    valueColor:
                                                         data.status
                                                                 .toString() ==
                                                             "debit"
                                                         ? Colors.red
                                                         : Colors.green,
-                                                    fontWeight: FontWeight.w600,
+                                                    isBold: true,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  languagesController.tr(
-                                                    "AMOUNT",
+
+                                                  Divider(
+                                                    height: 12,
+                                                    thickness: 0.5,
+                                                    color: Colors.grey[200],
                                                   ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      NumberFormat.currency(
-                                                        locale: 'en_US',
-                                                        symbol: '',
-                                                        decimalDigits: 2,
-                                                      ).format(
-                                                        double.parse(
-                                                          data.amount
-                                                              .toString(),
+
+                                                  // --- Amount Row (Highlighted) ---
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        languagesController.tr(
+                                                          "AMOUNT",
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color:
+                                                              Colors.grey[600],
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color:
-                                                            data.status
-                                                                    .toString() ==
-                                                                "debit"
-                                                            ? Colors.red
-                                                            : Colors.green,
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            NumberFormat.currency(
+                                                              locale: 'en_US',
+                                                              symbol: '',
+                                                              decimalDigits: 2,
+                                                            ).format(
+                                                              double.parse(
+                                                                data.amount
+                                                                    .toString(),
+                                                              ),
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  18, // Larger font for amount
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  data.status
+                                                                          .toString() ==
+                                                                      "debit"
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                        .green,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 4),
+                                                          Text(
+                                                            box.read(
+                                                              "currency_code",
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Colors
+                                                                  .grey[600],
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    data.transactionReason
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize:
+                                                          15, // Larger font for amount
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black,
                                                     ),
-                                                    SizedBox(width: 5),
-                                                    Text(
-                                                      "${box.read("currency_code")} ",
-                                                      style: TextStyle(
-                                                        fontSize: 10,
-                                                        color:
-                                                            data.status
-                                                                    .toString() ==
-                                                                "debit"
-                                                            ? Colors.red
-                                                            : Colors.green,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -451,7 +405,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       : transactionController.finalList.isEmpty
                       ? SizedBox()
                       : RefreshIndicator(
-                          onRefresh: refresh,
+                          onRefresh: () async {
+                            await transactionController.fetchTransactionData();
+                          },
                           child: ListView.builder(
                             shrinkWrap: false,
                             controller: scrollController,
@@ -677,6 +633,36 @@ class _TransactionsPageState extends State<TransactionsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfoRow({
+    required String label,
+    required String value,
+    Color? valueColor,
+    bool isBold = false,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 15,
+            color: valueColor ?? Colors.black87,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

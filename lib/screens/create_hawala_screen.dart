@@ -24,12 +24,14 @@ class HawalaScreen extends StatefulWidget {
 }
 
 class _HawalaScreenState extends State<HawalaScreen> {
-  final AddHawalaController addHawalaController =
-      Get.put(AddHawalaController());
+  final AddHawalaController addHawalaController = Get.put(
+    AddHawalaController(),
+  );
   SignInController signInController = Get.put(SignInController());
 
   final CurrencyController currencyController = Get.put(CurrencyController());
-  final BranchController branchController = Get.put(BranchController());
+
+  final branchController = Get.find<BranchController>();
 
   final box = GetStorage();
 
@@ -39,11 +41,13 @@ class _HawalaScreenState extends State<HawalaScreen> {
 
   LanguagesController languagesController = Get.put(LanguagesController());
 
-  HawalaCurrencyController hawalaCurrencyController =
-      Get.put(HawalaCurrencyController());
+  HawalaCurrencyController hawalaCurrencyController = Get.put(
+    HawalaCurrencyController(),
+  );
 
-  ConversationController conversationController =
-      Get.put(ConversationController());
+  ConversationController conversationController = Get.put(
+    ConversationController(),
+  );
 
   @override
   void initState() {
@@ -84,10 +88,7 @@ class _HawalaScreenState extends State<HawalaScreen> {
           onTap: () {
             Get.back();
           },
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
+          child: Icon(Icons.arrow_back, color: Colors.black),
         ),
         scrolledUnderElevation: 0.0,
         backgroundColor: AppColors.backgroundColor,
@@ -124,16 +125,12 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   fontSize: screenHeight * 0.020,
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               AuthTextField(
                 hintText: "",
                 controller: addHawalaController.senderNameController,
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               Text(
                 languagesController.tr("RECEIVER_NAME"),
                 style: TextStyle(
@@ -141,16 +138,12 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   fontSize: screenHeight * 0.020,
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               AuthTextField(
                 hintText: "",
                 controller: addHawalaController.receiverNameController,
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Text(
                 languagesController.tr("RECEIVER_FATHERS_NAME"),
                 style: TextStyle(
@@ -158,16 +151,12 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   fontSize: screenHeight * 0.020,
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               AuthTextField(
                 hintText: "",
                 controller: addHawalaController.fatherNameController,
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               Text(
                 languagesController.tr("RECEIVER_ID_CARD_NUMBER"),
                 style: TextStyle(
@@ -175,16 +164,12 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   fontSize: screenHeight * 0.020,
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               AuthTextField(
                 hintText: "",
                 controller: addHawalaController.idcardController,
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -204,9 +189,7 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Container(
                 height: 50,
                 width: screenWidth,
@@ -226,18 +209,14 @@ class _HawalaScreenState extends State<HawalaScreen> {
                           color: Color(0xffF9FAFB),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                          ),
+                          padding: EdgeInsets.only(left: 15, right: 15),
                           child: TextField(
-                            style: TextStyle(
-                              height: 1.1,
-                            ),
+                            style: TextStyle(height: 1.1),
                             keyboardType: TextInputType.phone,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d*\.?\d{0,2}')),
+                                RegExp(r'^\d*\.?\d{0,2}'),
+                              ),
                             ],
                             controller: addHawalaController.amountController,
                             decoration: InputDecoration(
@@ -258,15 +237,21 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                 return;
                               }
 
-                              double input = double.tryParse(addHawalaController
-                                      .amountController.text
-                                      .trim()) ??
+                              double input =
+                                  double.tryParse(
+                                    addHawalaController.amountController.text
+                                        .trim(),
+                                  ) ??
                                   0;
-                              double dAmount = double.tryParse(
-                                      selected.amount?.toString() ?? "0") ??
+                              double dAmount =
+                                  double.tryParse(
+                                    selected.amount?.toString() ?? "0",
+                                  ) ??
                                   0;
-                              double sRate = double.tryParse(
-                                      selected.sellRate?.toString() ?? "0") ??
+                              double sRate =
+                                  double.tryParse(
+                                    selected.sellRate?.toString() ?? "0",
+                                  ) ??
                                   0;
 
                               double result = 0;
@@ -274,24 +259,24 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                 result = (input / dAmount) * sRate;
                               }
 
-                              addHawalaController.finalAmount.value =
-                                  result.toStringAsFixed(2);
+                              addHawalaController.finalAmount.value = result
+                                  .toStringAsFixed(2);
                             },
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    SizedBox(width: 10),
                     Expanded(
                       flex: 1,
                       child: Obx(() {
-                        final List<dynamic> rates = (hawalaCurrencyController
-                                .hawalafilteredcurrency
-                                .value
-                                .data
-                                ?.rates as List?) ??
+                        final List<dynamic> rates =
+                            (hawalaCurrencyController
+                                    .hawalafilteredcurrency
+                                    .value
+                                    .data
+                                    ?.rates
+                                as List?) ??
                             <dynamic>[];
 
                         double _toDouble(dynamic v) {
@@ -305,8 +290,8 @@ class _HawalaScreenState extends State<HawalaScreen> {
                         // 1) ডুপ্লিকেট toCurrency.id বাদ দিয়ে প্রথম occurrence রাখি
                         final Map<String, dynamic> uniqueByToId = {};
                         for (final r in rates) {
-                          final String toId =
-                              ((r?.toCurrency?.id) ?? '').toString();
+                          final String toId = ((r?.toCurrency?.id) ?? '')
+                              .toString();
                           if (toId.isEmpty) continue;
                           // আগে রাখা না থাকলে রাখি (প্রথমটাই থাকবে)
                           uniqueByToId.putIfAbsent(toId, () => r);
@@ -315,25 +300,30 @@ class _HawalaScreenState extends State<HawalaScreen> {
                         // 2) Dropdown items তৈরি
                         final dropdownItems = uniqueByToId.entries
                             .map<DropdownMenuItem<String>>((e) {
-                          final symbol =
-                              ((e.value?.toCurrency?.symbol) ?? '').toString();
-                          return DropdownMenuItem<String>(
-                            value: e.key, // toCurrency.id
-                            child: Text(symbol),
-                          );
-                        }).toList();
+                              final symbol =
+                                  ((e.value?.toCurrency?.symbol) ?? '')
+                                      .toString();
+                              return DropdownMenuItem<String>(
+                                value: e.key, // toCurrency.id
+                                child: Text(symbol),
+                              );
+                            })
+                            .toList();
 
                         // 3) বর্তমান value dropdown-এ আছে কিনা
                         final currentValue =
                             addHawalaController.currencyID.value;
-                        final bool valueExists = currentValue.isNotEmpty &&
+                        final bool valueExists =
+                            currentValue.isNotEmpty &&
                             uniqueByToId.containsKey(currentValue);
 
                         return Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                                width: 1, color: Colors.grey.shade300),
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
                             color: Colors.white,
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -363,9 +353,10 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                   selectedRate;
 
                               // 6) হিসাব
-                              final input = _toDouble(addHawalaController
-                                  .amountController.text
-                                  .trim());
+                              final input = _toDouble(
+                                addHawalaController.amountController.text
+                                    .trim(),
+                              );
                               final dAmount = _toDouble(selectedRate?.amount);
                               final sRate = _toDouble(selectedRate?.sellRate);
 
@@ -373,8 +364,8 @@ class _HawalaScreenState extends State<HawalaScreen> {
                               if (dAmount > 0 && sRate > 0) {
                                 result = (input / dAmount) * sRate;
                               }
-                              addHawalaController.finalAmount.value =
-                                  result.toStringAsFixed(2);
+                              addHawalaController.finalAmount.value = result
+                                  .toStringAsFixed(2);
                             },
 
                             decoration: const InputDecoration(
@@ -382,8 +373,8 @@ class _HawalaScreenState extends State<HawalaScreen> {
                               contentPadding: EdgeInsets.zero,
                             ),
                             icon: CircleAvatar(
-                              backgroundColor:
-                                  AppColors.defaultColor.withOpacity(0.7),
+                              backgroundColor: AppColors.defaultColor
+                                  .withOpacity(0.7),
                               radius: 15,
                               child: Icon(
                                 FontAwesomeIcons.chevronDown,
@@ -400,13 +391,11 @@ class _HawalaScreenState extends State<HawalaScreen> {
                           ),
                         );
                       }),
-                    )
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               // Text(
               //   languagesController.tr("YOUR_ACCOUNT_BALANCE_IS"),
               //   style: TextStyle(
@@ -425,19 +414,14 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   fontSize: screenHeight * 0.020,
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Container(
                 height: 50,
                 width: screenWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey.shade300,
-                  ),
+                  border: Border.all(width: 1, color: Colors.grey.shade300),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10, right: 10),
@@ -474,14 +458,22 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                           if (commissionpaidby[index] ==
                                               "sender") {
                                             addHawalaController
-                                                .paidbysender.value = "1";
+                                                    .paidbysender
+                                                    .value =
+                                                "1";
                                             addHawalaController
-                                                .paidbyreceiver.value = "0";
+                                                    .paidbyreceiver
+                                                    .value =
+                                                "0";
                                           } else {
                                             addHawalaController
-                                                .paidbysender.value = "0";
+                                                    .paidbysender
+                                                    .value =
+                                                "0";
                                             addHawalaController
-                                                .paidbyreceiver.value = "1";
+                                                    .paidbyreceiver
+                                                    .value =
+                                                "1";
                                           }
                                           Navigator.pop(context);
                                         },
@@ -489,7 +481,8 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                           margin: EdgeInsets.only(bottom: 8),
                                           height: 40,
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
+                                            horizontal: 10,
+                                          ),
                                           alignment: Alignment.centerLeft,
                                           decoration: BoxDecoration(
                                             border: Border.all(
@@ -511,8 +504,9 @@ class _HawalaScreenState extends State<HawalaScreen> {
                           );
                         },
                         child: CircleAvatar(
-                          backgroundColor:
-                              AppColors.defaultColor.withOpacity(0.7),
+                          backgroundColor: AppColors.defaultColor.withOpacity(
+                            0.7,
+                          ),
                           radius: 15,
                           child: Icon(
                             FontAwesomeIcons.chevronDown,
@@ -525,9 +519,7 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Container(
                 height: 50,
                 width: screenWidth,
@@ -543,36 +535,29 @@ class _HawalaScreenState extends State<HawalaScreen> {
                       Obx(
                         () => Text(
                           addHawalaController.finalAmount.toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                       Text(
                         box.read("currency_code"),
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Text(
-                languagesController
-                    .tr("FINAL_AMOUNT_DEDUCTED_FROM_YOUR_BALANCE"),
+                languagesController.tr(
+                  "FINAL_AMOUNT_DEDUCTED_FROM_YOUR_BALANCE",
+                ),
                 style: TextStyle(
                   color: AppColors.defaultColor,
                   fontWeight: FontWeight.w500,
                   fontSize: screenHeight * 0.015,
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Text(
                 languagesController.tr("BRANCH"),
                 style: TextStyle(
@@ -580,19 +565,14 @@ class _HawalaScreenState extends State<HawalaScreen> {
                   fontSize: screenHeight * 0.020,
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Container(
                 height: 50,
                 width: screenWidth,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey.shade300,
-                  ),
+                  border: Border.all(width: 1, color: Colors.grey.shade300),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(left: 15, right: 15),
@@ -609,8 +589,12 @@ class _HawalaScreenState extends State<HawalaScreen> {
                               child: Obx(
                                 () => branchController.isLoading.value == false
                                     ? ListView.builder(
-                                        itemCount: branchController.allbranch
-                                            .value.data!.hawalabranches!.length,
+                                        itemCount: branchController
+                                            .allbranch
+                                            .value
+                                            .data!
+                                            .hawalabranches!
+                                            .length,
                                         itemBuilder: (context, index) {
                                           final data = branchController
                                               .allbranch
@@ -621,14 +605,17 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                             onTap: () {
                                               addHawalaController.branch.value =
                                                   data.name.toString();
-                                              addHawalaController.branchId
-                                                  .value = data.id.toString();
+                                              addHawalaController
+                                                  .branchId
+                                                  .value = data.id
+                                                  .toString();
 
                                               Navigator.pop(context);
                                             },
                                             child: Container(
-                                              margin:
-                                                  EdgeInsets.only(bottom: 8),
+                                              margin: EdgeInsets.only(
+                                                bottom: 8,
+                                              ),
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 border: Border.all(
@@ -639,12 +626,11 @@ class _HawalaScreenState extends State<HawalaScreen> {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        horizontal: 10),
+                                                      horizontal: 10,
+                                                    ),
                                                 child: Row(
                                                   children: [
-                                                    Text(
-                                                      data.name.toString(),
-                                                    ),
+                                                    Text(data.name.toString()),
                                                   ],
                                                 ),
                                               ),
@@ -664,43 +650,47 @@ class _HawalaScreenState extends State<HawalaScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                            child: Obx(
-                          () => Text(
-                            addHawalaController.branch.toString(),
-                            style: TextStyle(
-                              fontSize: screenHeight * 0.020,
-                              color: Colors.grey.shade600,
+                          child: Obx(
+                            () => Text(
+                              addHawalaController.branch.toString(),
+                              style: TextStyle(
+                                fontSize: screenHeight * 0.020,
+                                color: Colors.grey.shade600,
+                              ),
                             ),
                           ),
-                        )),
+                        ),
                         Icon(
                           FontAwesomeIcons.chevronDown,
                           size: screenHeight * 0.018,
                           color: Colors.grey,
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: 10),
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Obx(
                 () => DefaultButton(
                   buttonName: addHawalaController.isLoading.value == false
                       ? languagesController.tr("CONFIRM_AND_SUBMIT")
                       : languagesController.tr("PLEASE_WAIT"),
                   onPressed: () async {
-                    if (addHawalaController.senderNameController.text.isNotEmpty &&
+                    if (addHawalaController
+                            .senderNameController
+                            .text
+                            .isNotEmpty &&
                         addHawalaController
-                            .receiverNameController.text.isNotEmpty &&
+                            .receiverNameController
+                            .text
+                            .isNotEmpty &&
                         addHawalaController.amountController.text.isNotEmpty &&
                         addHawalaController
-                            .fatherNameController.text.isNotEmpty &&
+                            .fatherNameController
+                            .text
+                            .isNotEmpty &&
                         addHawalaController.idcardController.text.isNotEmpty &&
                         addHawalaController.currencyID.value != "" &&
                         addHawalaController.paidbyreceiver.value != "" &&
@@ -713,20 +703,19 @@ class _HawalaScreenState extends State<HawalaScreen> {
                       }
                     } else {
                       Fluttertoast.showToast(
-                          msg: "Enter All data",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.TOP,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                        msg: "Enter All data",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
                     }
                   },
                 ),
               ),
-              SizedBox(
-                height: 80,
-              ),
+              SizedBox(height: 80),
             ],
           ),
         ),

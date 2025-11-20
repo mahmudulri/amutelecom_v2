@@ -9,6 +9,7 @@ class NetworkController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     _connectivity.onConnectivityChanged.listen((connectivityResults) {
       _updateConnectionStatus(connectivityResults);
     });
@@ -18,27 +19,22 @@ class NetworkController extends GetxController {
     if (connectivityResults.contains(ConnectivityResult.none)) {
       hasinternet.value = false;
 
-      // Show the alert dialog if internet is disconnected
-      Get.dialog(
-        AlertDialog(
-          title: const Text('No Internet Connection'),
-          content: const Text('Please connect to the internet.'),
-          // actions: [
-          //   ElevatedButton(
-          //     onPressed: () {
-          //       Get.back(); // Close the dialog manually
-          //     },
-          //     child: const Text('OK'),
-          //   ),
-          // ],
-        ),
-        barrierDismissible:
-            false, // Prevent dismissing the dialog by tapping outside
-      );
+      // If no dialog is open → then open dialog
+      if (Get.isDialogOpen != true) {
+        Get.dialog(
+          AlertDialog(
+            title: const Text('No Internet Connection'),
+            content: const Text('Please connect to the internet.'),
+          ),
+          barrierDismissible: false,
+        );
+      }
     } else {
       hasinternet.value = true;
-      if (Get.isDialogOpen!) {
-        Get.back(); // Close the dialog when internet is restored
+
+      // Close dialog IF it is open
+      if (Get.isDialogOpen == true) {
+        Get.back();
       }
     }
   }

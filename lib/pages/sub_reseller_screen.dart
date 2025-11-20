@@ -110,6 +110,7 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    box.write("search_target", "");
     subresellerController.initialpage = 1;
     subresellerController.finalList.clear();
     subresellerController.fetchSubReseller();
@@ -131,7 +132,7 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
         title: GestureDetector(
           onTap: () {
             // dashboardController.isLoading.value = false;
-            print(dashboardController.isLoading.value.toString());
+            print(box.read("search_target"));
           },
           child: Text(
             languageController.tr("SUB_RESELLER"),
@@ -169,19 +170,54 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
+                                  horizontal: 8,
                                 ),
-                                child: TextField(
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      search = value.toString();
-                                    });
-                                  },
-                                  controller: searchController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: languageController.tr("SEARCH"),
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        onChanged: (String? value) {
+                                          box.write(
+                                            "search_target",
+                                            value.toString(),
+                                          );
+
+                                          if (value == null || value.isEmpty) {
+                                            subresellerController.initialpage =
+                                                1;
+                                            subresellerController.finalList
+                                                .clear();
+                                            subresellerController
+                                                .fetchSubReseller();
+                                          }
+                                        },
+                                        controller: searchController,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: languageController.tr(
+                                            "SEARCH",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          subresellerController.initialpage = 1;
+                                          subresellerController.finalList
+                                              .clear();
+                                          subresellerController
+                                              .fetchSubReseller();
+                                        },
+                                        child: Icon(
+                                          Icons.search,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -282,7 +318,6 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                     final data =
                                         subresellerController.finalList[index];
 
-                                    int myindex = index + 1;
                                     return Container(
                                       height: 250,
                                       width: screenWidth,
@@ -316,7 +351,6 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                                   ),
                                               child: Row(
                                                 children: [
-                                                  Text(myindex.toString()),
                                                   data.profileImageUrl
                                                               .toString() !=
                                                           "null"
@@ -962,7 +996,7 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                   itemBuilder: (context, index) {
                                     final data =
                                         subresellerController.finalList[index];
-                                    int myindex = index + 1;
+
                                     return Container(
                                       height: 250,
                                       width: screenWidth,
@@ -996,7 +1030,6 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                                   ),
                                               child: Row(
                                                 children: [
-                                                  Text(myindex.toString()),
                                                   data.profileImageUrl
                                                               .toString() !=
                                                           "null"

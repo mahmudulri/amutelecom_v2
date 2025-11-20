@@ -10,18 +10,17 @@ import '../utils/api_endpoints.dart';
 class BranchApi {
   final box = GetStorage();
   Future<BranchModel> fetchBranch() async {
-    final url =
-        Uri.parse(ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.branch);
+    final url = Uri.parse(
+      ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.branch,
+    );
 
     var response = await http.get(
       url,
-      headers: {
-        'Authorization': 'Bearer ${box.read("userToken")}',
-      },
+      headers: {'Authorization': 'Bearer ${box.read("userToken")}'},
     );
 
     if (response.statusCode == 200) {
-      print(response.body.toString());
+      // print(response.body.toString());
       final branchModel = BranchModel.fromJson(json.decode(response.body));
 
       return branchModel;

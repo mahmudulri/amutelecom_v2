@@ -64,6 +64,7 @@ class ResellerBalanceTransaction {
   final int? id;
   final String? resellerId;
   final String? amount;
+  final dynamic? transactionReason;
   final dynamic? currencyCode;
   final String? currencyId;
   final String? status;
@@ -77,6 +78,7 @@ class ResellerBalanceTransaction {
     this.id,
     this.resellerId,
     this.amount,
+    this.transactionReason,
     this.currencyCode,
     this.currencyId,
     this.status,
@@ -92,6 +94,9 @@ class ResellerBalanceTransaction {
         id: json["id"] == null ? null : json["id"],
         resellerId: json["reseller_id"] == null ? null : json["reseller_id"],
         amount: json["amount"] == null ? null : json["amount"],
+        transactionReason: json["transaction_reason"] == null
+            ? null
+            : json["transaction_reason"],
         currencyCode: json["currency_code"] == null
             ? null
             : json["currency_code"],
@@ -116,6 +121,7 @@ class ResellerBalanceTransaction {
     "id": id,
     "reseller_id": resellerId,
     "amount": amount,
+    "transaction_reason": transactionReason,
     "currency_code": currencyCode,
     "currency_id": currencyId,
     "status": status,

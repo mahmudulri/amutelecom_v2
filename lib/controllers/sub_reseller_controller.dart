@@ -8,7 +8,7 @@ import '../models/sub_reseller_model.dart';
 class SubresellerController extends GetxController {
   RxList<Reseller> finalList = <Reseller>[].obs;
 
-  int initialpage = 2;
+  int initialpage = 1;
 
   var isLoading = false.obs;
 

@@ -11,7 +11,7 @@ class SubResellerApi {
   final box = GetStorage();
   Future<SubResellerModel> fetchSubReseller(int pageNo) async {
     final url = Uri.parse(
-      "${ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.subreseller}?page=${pageNo}",
+      "${ApiEndPoints.baseUrl + ApiEndPoints.otherendpoints.subreseller}?page=${pageNo}&search_target=${box.read("search_target")}",
     );
 
     var response = await http.get(

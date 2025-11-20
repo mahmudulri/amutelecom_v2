@@ -14,6 +14,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await GetStorage.init();
+  //// used for check real time internet access
+  DependencyInjection.init();
 
   runApp(
     EasyLocalization(
@@ -30,9 +32,6 @@ void main() async {
       child: MyApp(),
     ),
   );
-
-  //// used for check real time internet access
-  DependencyInjection.init();
 }
 
 class MyApp extends StatefulWidget {

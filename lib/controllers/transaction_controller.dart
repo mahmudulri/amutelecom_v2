@@ -9,30 +9,70 @@ class TransactionController extends GetxController {
   RxList<ResellerBalanceTransaction> finalList =
       <ResellerBalanceTransaction>[].obs;
 
-  var isLoading = false.obs;
+  RxBool isLoading = false.obs; // First page loading
+  RxBool isFetchingMore = false.obs; // Pagination loading
+  RxBool isLastPage = false.obs; // No more pages
 
-  int initialpage = 1;
+  int currentPage = 1;
+  int totalPages = 1;
 
-  var alltransactionlist = TransactionModel().obs;
+  Rx<TransactionModel> alltransactionlist = TransactionModel().obs;
 
-  void fetchTransactionData() async {
+  /// ********** Fetch First Page **********
+  Future<void> fetchTransactionData() async {
     try {
       isLoading(true);
 
-      await TransactionApi().fetchTransaction(initialpage).then((value) {
-        alltransactionlist.value = value;
+      currentPage = 1;
+      isLastPage(false);
+      finalList.clear();
 
-        if (alltransactionlist.value.data != null) {
-          finalList.addAll(
-            alltransactionlist.value.data!.resellerBalanceTransactions,
-          );
-        }
+      final value = await TransactionApi().fetchTransaction(currentPage);
 
-        isLoading(false);
-      });
+      alltransactionlist.value = value;
+
+      totalPages = value.payload?.pagination?.lastPage ?? 1;
+
+      if (value.data != null) {
+        finalList.addAll(value.data!.resellerBalanceTransactions);
+      }
     } catch (e) {
-      print(e.toString());
+      print("ERROR: $e");
+    } finally {
       isLoading(false);
+    }
+  }
+
+  /// ********** Pagination (Load More) **********
+  Future<void> fetchMore() async {
+    if (isFetchingMore.value || isLastPage.value) return;
+
+    if (currentPage >= totalPages) {
+      isLastPage(true);
+      print("End.........................................End");
+      return;
+    }
+
+    try {
+      isFetchingMore(true);
+      currentPage++;
+
+      print("Loading Page: $currentPage");
+
+      final value = await TransactionApi().fetchTransaction(currentPage);
+
+      if (value.data != null) {
+        finalList.addAll(value.data!.resellerBalanceTransactions);
+      }
+
+      if (currentPage >= totalPages) {
+        isLastPage(true);
+        print("End.........................................End");
+      }
+    } catch (e) {
+      print("ERROR: $e");
+    } finally {
+      isFetchingMore(false);
     }
   }
 }

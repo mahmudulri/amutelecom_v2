@@ -36,6 +36,7 @@ class _OrdersPageState extends State<OrdersPage> {
   void initState() {
     super.initState();
     box.write("search_target", "");
+    box.write("orderstatus", "");
     languagesController = Get.put(LanguagesController());
 
     orderStatus = [
@@ -44,11 +45,14 @@ class _OrdersPageState extends State<OrdersPage> {
       {"title": languagesController.tr("REJECTED"), "value": "order_status=2"},
     ];
 
-    box.write("orderstatus", "");
-    orderlistController.initialpage = 1;
     orderlistController.finalList.clear();
     orderlistController.fetchOrderlistdata();
-    scrollController.addListener(refresh);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 100) {
+        orderlistController.fetchMore();
+      }
+    });
   }
 
   final box = GetStorage();
@@ -61,37 +65,6 @@ class _OrdersPageState extends State<OrdersPage> {
   TextEditingController searchController = TextEditingController();
 
   String search = "";
-
-  Future<void> refresh() async {
-    final int totalPages =
-        orderlistController.allorderlist.value.payload?.pagination.totalPages ??
-        0;
-    final int currentPage = orderlistController.initialpage;
-
-    // Prevent loading more pages if we've reached the last page
-    if (currentPage >= totalPages) {
-      print(
-        "End..........................................End.....................",
-      );
-      return;
-    }
-
-    // Check if the scroll position is at the bottom
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      orderlistController.initialpage++;
-
-      // Prevent fetching if the next page exceeds total pages
-      if (orderlistController.initialpage <= totalPages) {
-        print("Load More...................");
-        orderlistController.fetchOrderlistdata();
-      } else {
-        orderlistController.initialpage =
-            totalPages; // Reset to the last valid page
-        print("Already on the last page");
-      }
-    }
-  }
 
   final dashboardController = Get.find<DashboardController>();
   final orderlistController = Get.find<OrderlistController>();
@@ -153,7 +126,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           child: TextField(
                             onChanged: (value) {
                               orderlistController.finalList.clear();
-                              orderlistController.initialpage = 1;
+                              orderlistController.currentPage = 1;
                               box.write("search_target", value.toString());
                               orderlistController.fetchOrderlistdata();
                               print(value.toString());
@@ -332,7 +305,7 @@ class _OrdersPageState extends State<OrdersPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  orderlistController.initialpage = 1;
+                                  orderlistController.currentPage = 1;
                                   orderlistController.finalList.clear();
                                   orderlistController.fetchOrderlistdata();
                                   print(box.read("orderstatus"));
@@ -366,7 +339,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 onTap: () {
                                   box.write("orderstatus", "");
 
-                                  orderlistController.initialpage = 1;
+                                  orderlistController.currentPage = 1;
                                   orderlistController.finalList.clear();
 
                                   orderlistController.fetchOrderlistdata();
@@ -454,7 +427,9 @@ class _OrdersPageState extends State<OrdersPage> {
                       orderlistController.isLoading.value == false &&
                           orderlistController.finalList.isNotEmpty
                       ? RefreshIndicator(
-                          onRefresh: refresh,
+                          onRefresh: () async {
+                            await orderlistController.fetchOrderlistdata();
+                          },
                           child: ListView.builder(
                             shrinkWrap: false,
                             physics: AlwaysScrollableScrollPhysics(),
@@ -992,7 +967,9 @@ class _OrdersPageState extends State<OrdersPage> {
                       : orderlistController.finalList.isEmpty
                       ? SizedBox()
                       : RefreshIndicator(
-                          onRefresh: refresh,
+                          onRefresh: () async {
+                            await orderlistController.fetchOrderlistdata();
+                          },
                           child: ListView.builder(
                             shrinkWrap: false,
                             physics: AlwaysScrollableScrollPhysics(),

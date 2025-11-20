@@ -15,6 +15,8 @@ import 'package:amutelecom/controllers/transaction_controller.dart';
 import 'package:amutelecom/global_controller/languages_controller.dart';
 import 'package:get/get.dart';
 
+import '../controllers/branch_controller.dart';
+
 class BaseViewBinding implements Bindings {
   @override
   void dependencies() {
@@ -26,6 +28,7 @@ class BaseViewBinding implements Bindings {
     Get.lazyPut<ServiceController>(() => ServiceController());
     Get.lazyPut<BundleController>(() => BundleController());
     Get.lazyPut<LanguagesController>(() => LanguagesController());
+    Get.lazyPut<BranchController>(() => BranchController());
 
     Get.lazyPut<SubresellerController>(() => SubresellerController());
     Get.lazyPut<SubresellerDetailsController>(
