@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const defaultColor = Colors.green;
+  static const defaultColor = Colors.orange;
   // static const defaultColor = Color(0xff2E3644);
   static const backgroundColor = Color(0xffecf0f1);
   static const borderColor = Color(0xffA9A5A5);

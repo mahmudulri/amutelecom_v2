@@ -32,155 +32,382 @@ class _ChangeBalanceScreenState extends State<ChangeBalanceScreen> {
     var screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Icon(Icons.arrow_back, color: Colors.black),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black87, size: 20),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
         title: Text(
           languagesController.tr("CHANGE_BALANCE"),
           style: TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+            letterSpacing: 0.3,
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              languagesController.tr("AMOUNT"),
-              style: TextStyle(fontSize: 18, color: Colors.black),
-            ),
-            SizedBox(height: 10),
-            // TextField(
-            //   keyboardType: TextInputType.number,
-            //   controller: balanceController.amountController,
-            //   decoration: InputDecoration(
-            //     hintText: languagesController.tr("ENTER_AMOUNT"),
-            //     border:
-            //         OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            //   ),
-            // ),
-            Container(
-              height: 55,
-              width: screenWidth,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: AppColors.borderColor),
-                borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Card
+              Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.defaultColor,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.defaultColor.withOpacity(0.3),
+                      blurRadius: 15,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.account_balance_wallet_outlined,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Balance Management",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "Add or deduct balance",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Center(
+
+              SizedBox(height: 40),
+
+              // Amount Section
+              Text(
+                languagesController.tr("AMOUNT"),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                  letterSpacing: 0.2,
+                ),
+              ),
+              SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 10,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   child: TextField(
                     keyboardType: TextInputType.number,
                     controller: balanceController.amountController,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: languagesController.tr("ENTER_AMOUNT"),
+                      hintStyle: TextStyle(
+                        color: Colors.grey[400],
+                        fontSize: 15,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.attach_money,
+                        color: AppColors.defaultColor,
+                        size: 22,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              languagesController.tr("SELECT_TYPE"),
-              style: TextStyle(fontSize: 18, color: Colors.black),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildTypeButton(
-                  languagesController.tr("CREDIT"),
-                  isCreditSelected,
-                  () {
-                    setState(() {
-                      balanceController.status.value = "credit";
-                      isCreditSelected = true;
-                      isDebitSelected = false;
-                    });
-                  },
+
+              SizedBox(height: 32),
+
+              // Select Type Section
+              Text(
+                languagesController.tr("SELECT_TYPE"),
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                  letterSpacing: 0.2,
                 ),
-                buildTypeButton(
-                  languagesController.tr("DEBIT"),
-                  isDebitSelected,
-                  () {
-                    setState(() {
-                      balanceController.status.value = "debit";
-                      isCreditSelected = false;
-                      isDebitSelected = true;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            Obx(
-              () => DefaultButton(
-                buttonName: balanceController.isLoading.value
-                    ? languagesController.tr("PLEASE_WAIT")
-                    : languagesController.tr("CONFIRM_NOW"),
-                onPressed: balanceController.isLoading.value
-                    ? null
-                    : () {
-                        if (balanceController.amountController.text.isEmpty ||
-                            balanceController.status.value == '') {
-                          Fluttertoast.showToast(
-                            msg: languagesController.tr(
-                              "ENTER_AMOUNT_OR_SELECT_TYPE",
-                            ),
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
-                            fontSize: 16.0,
-                          );
-                        } else {
-                          balanceController.status.value == "credit"
-                              ? balanceController.credit(
-                                  widget.subID.toString(),
-                                )
-                              : balanceController.debit(
-                                  widget.subID.toString(),
-                                );
-                        }
-                      },
               ),
-            ),
-          ],
+              SizedBox(height: 12),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: buildTypeButton(
+                      languagesController.tr("CREDIT"),
+                      isCreditSelected,
+                      Icons.add_circle_outline,
+                      Colors.green,
+                      () {
+                        setState(() {
+                          balanceController.status.value = "credit";
+                          isCreditSelected = true;
+                          isDebitSelected = false;
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: buildTypeButton(
+                      languagesController.tr("DEBIT"),
+                      isDebitSelected,
+                      Icons.remove_circle_outline,
+                      Colors.red,
+                      () {
+                        setState(() {
+                          balanceController.status.value = "debit";
+                          isCreditSelected = false;
+                          isDebitSelected = true;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 30),
+
+              // Info Box
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.amber[50],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.amber[100]!),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      color: Colors.amber[800],
+                      size: 20,
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Important",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.amber[900],
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "Credit adds balance, Debit deducts balance from the account",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.amber[900],
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 30),
+
+              // Confirm Button
+              Obx(
+                () => Container(
+                  width: double.infinity,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: balanceController.isLoading.value
+                        ? Colors.grey[400]
+                        : AppColors.defaultColor,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: balanceController.isLoading.value
+                            ? Colors.grey.withOpacity(0.3)
+                            : AppColors.defaultColor.withOpacity(0.4),
+                        blurRadius: 15,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(14),
+                      onTap: balanceController.isLoading.value
+                          ? null
+                          : () {
+                              if (balanceController
+                                      .amountController
+                                      .text
+                                      .isEmpty ||
+                                  balanceController.status.value == '') {
+                                Fluttertoast.showToast(
+                                  msg: languagesController.tr(
+                                    "ENTER_AMOUNT_OR_SELECT_TYPE",
+                                  ),
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
+                              } else {
+                                balanceController.status.value == "credit"
+                                    ? balanceController.credit(
+                                        widget.subID.toString(),
+                                      )
+                                    : balanceController.debit(
+                                        widget.subID.toString(),
+                                      );
+                              }
+                            },
+                      child: Center(
+                        child: balanceController.isLoading.value
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Text(
+                                    languagesController.tr("PLEASE_WAIT"),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                languagesController.tr("CONFIRM_NOW"),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildTypeButton(String text, bool isSelected, VoidCallback onTap) {
+  Widget buildTypeButton(
+    String text,
+    bool isSelected,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: 150,
-        height: 40,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        height: 100,
         decoration: BoxDecoration(
-          color: isSelected ? Colors.green : Colors.grey,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-            ),
+          color: isSelected ? color.withOpacity(0.1) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? color : Colors.grey[300]!,
+            width: isSelected ? 2 : 1,
           ),
+          boxShadow: [
+            if (isSelected)
+              BoxShadow(
+                color: color.withOpacity(0.2),
+                blurRadius: 10,
+                offset: Offset(0, 4),
+              ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: isSelected ? color : Colors.grey[400], size: 32),
+            SizedBox(height: 8),
+            Text(
+              text,
+              style: TextStyle(
+                color: isSelected ? color : Colors.grey[600],
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                fontSize: 16,
+              ),
+            ),
+          ],
         ),
       ),
     );

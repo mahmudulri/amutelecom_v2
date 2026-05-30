@@ -60,9 +60,7 @@ class PaymentButton extends StatelessWidget {
                             height: 30,
                             color: Colors.white,
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          SizedBox(width: 10),
                           KText(
                             text: buttonName.toString(),
                             color: Colors.white,

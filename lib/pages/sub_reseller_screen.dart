@@ -149,112 +149,151 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
               height: screenHeight,
               width: screenWidth,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
                     Container(
-                      height: 50,
-                      width: screenWidth,
-
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                       child: Row(
                         children: [
+                          // Search Field
                           Expanded(
                             flex: 2,
                             child: Container(
+                              height: 55,
                               decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                  width: 1,
-                                  color: Colors.grey,
+                                  color: Colors.grey.withOpacity(0.3),
+                                  width: 1.5,
                                 ),
-                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.04),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        onChanged: (String? value) {
-                                          box.write(
-                                            "search_target",
-                                            value.toString(),
-                                          );
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: TextField(
+                                      onChanged: (String? value) {
+                                        box.write(
+                                          "search_target",
+                                          value.toString(),
+                                        );
 
-                                          if (value == null || value.isEmpty) {
-                                            subresellerController.initialpage =
-                                                1;
-                                            subresellerController.finalList
-                                                .clear();
-                                            subresellerController
-                                                .fetchSubReseller();
-                                          }
-                                        },
-                                        controller: searchController,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: languageController.tr(
-                                            "SEARCH",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: GestureDetector(
-                                        onTap: () {
+                                        if (value == null || value.isEmpty) {
                                           subresellerController.initialpage = 1;
                                           subresellerController.finalList
                                               .clear();
                                           subresellerController
                                               .fetchSubReseller();
-                                        },
-                                        child: Icon(
-                                          Icons.search,
-                                          color: Colors.grey,
-                                          size: 30,
+                                        }
+                                      },
+                                      controller: searchController,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF212529),
+                                      ),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: languageController.tr(
+                                          "SEARCH",
+                                        ),
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey[400],
+                                          fontSize: 14,
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            flex: 1,
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.toNamed(addsubresellerscreen);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.defaultColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      languageController.tr("ADD_NEW"),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
+                                  GestureDetector(
+                                    onTap: () {
+                                      subresellerController.initialpage = 1;
+                                      subresellerController.finalList.clear();
+                                      subresellerController.fetchSubReseller();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      margin: EdgeInsets.only(right: 4),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.defaultColor
+                                            .withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Icon(
+                                        Icons.search,
+                                        color: AppColors.defaultColor,
+                                        size: 20,
                                       ),
                                     ),
                                   ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          // Add New Button
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(addsubresellerscreen);
+                            },
+                            child: Container(
+                              height: 55,
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.defaultColor,
+                                    AppColors.defaultColor.withOpacity(0.8),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 ),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.defaultColor.withOpacity(
+                                      0.3,
+                                    ),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    languageController.tr("ADD_NEW"),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+
                     Obx(
                       () => subresellerController.isLoading.value == true
                           ? Row(
@@ -309,9 +348,9 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                   shrinkWrap: false,
                                   controller: scrollController,
                                   physics: AlwaysScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(height: 8);
-                                  },
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(height: 8),
                                   itemCount:
                                       subresellerController.finalList.length,
                                   itemBuilder: (context, index) {
@@ -319,43 +358,55 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                         subresellerController.finalList[index];
 
                                     return Container(
-                                      height: 250,
-                                      width: screenWidth,
                                       decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey.withOpacity(
-                                              0.2,
-                                            ), // shadow color
-                                            spreadRadius: 2, // spread radius
-                                            blurRadius: 2, // blur radius
-                                            offset: Offset(
-                                              0,
-                                              0,
-                                            ), // changes position of shadow
+                                            color: Colors.black.withOpacity(
+                                              0.08,
+                                            ),
+                                            blurRadius: 8,
+                                            offset: Offset(0, 2),
                                           ),
                                         ],
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Column(
                                         children: [
+                                          // Header Section
                                           Container(
-                                            width: screenWidth,
-                                            // color: Colors.cyan,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 8,
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                255,
+                                                202,
+                                                236,
+                                                202,
+                                              ),
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                // Profile Image
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color: AppColors
+                                                          .defaultColor
+                                                          .withOpacity(0.2),
+                                                      width: 2,
+                                                    ),
                                                   ),
-                                              child: Row(
-                                                children: [
-                                                  data.profileImageUrl
+                                                  child:
+                                                      data.profileImageUrl
                                                               .toString() !=
                                                           "null"
                                                       ? CircleAvatar(
-                                                          radius: 22,
+                                                          radius: 24,
                                                           backgroundImage:
                                                               NetworkImage(
                                                                 data.profileImageUrl
@@ -363,15 +414,25 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                                               ),
                                                         )
                                                       : CircleAvatar(
-                                                          radius: 22,
+                                                          radius: 24,
                                                           backgroundColor:
-                                                              Colors.grey,
+                                                              AppColors
+                                                                  .defaultColor
+                                                                  .withOpacity(
+                                                                    0.1,
+                                                                  ),
+                                                          child: Icon(
+                                                            Icons.person,
+                                                            color: AppColors
+                                                                .defaultColor,
+                                                            size: 24,
+                                                          ),
                                                         ),
-                                                  SizedBox(width: 10),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                ),
+                                                SizedBox(width: 10),
+                                                // Name and Phone
+                                                Expanded(
+                                                  child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
@@ -379,599 +440,436 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                                       Text(
                                                         data.resellerName
                                                             .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Color(
+                                                            0xFF212529,
+                                                          ),
+                                                        ),
                                                       ),
-                                                      Text(
-                                                        data.phone.toString(),
+                                                      SizedBox(height: 2),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.phone,
+                                                            size: 12,
+                                                            color: Colors
+                                                                .grey[600],
+                                                          ),
+                                                          SizedBox(width: 4),
+                                                          Text(
+                                                            data.phone
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors
+                                                                  .grey[600],
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
-                                                  Spacer(),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      box.write(
-                                                        "subresellerID",
-                                                        data.id,
-                                                      );
-                                                      detailsController
-                                                          .fetchSubResellerDetails(
-                                                            data.id.toString(),
-                                                          );
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return AlertDialog(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                  0.0,
+                                                ),
+                                                // Action Button
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    box.write(
+                                                      "subresellerID",
+                                                      data.id,
+                                                    );
+                                                    detailsController
+                                                        .fetchSubResellerDetails(
+                                                          data.id.toString(),
+                                                        );
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return Dialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  16,
                                                                 ),
-                                                            content: Container(
-                                                              height: 300,
-                                                              width:
-                                                                  screenWidth -
-                                                                  100,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets.all(
-                                                                      12.0,
+                                                          ),
+                                                          child: Container(
+                                                            constraints:
+                                                                BoxConstraints(
+                                                                  maxHeight:
+                                                                      500,
+                                                                ),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                // Dialog Header
+                                                                Container(
+                                                                  padding:
+                                                                      EdgeInsets.all(
+                                                                        16,
+                                                                      ),
+                                                                  decoration: BoxDecoration(
+                                                                    color: AppColors
+                                                                        .defaultColor,
+                                                                    borderRadius: BorderRadius.only(
+                                                                      topLeft:
+                                                                          Radius.circular(
+                                                                            16,
+                                                                          ),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                            16,
+                                                                          ),
                                                                     ),
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        changeStatusController.channgestatus(
-                                                                          data.id
-                                                                              .toString(),
-                                                                        );
-                                                                        Navigator.pop(
-                                                                          context,
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.ac_unit,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            data.status
-                                                                                        .toString() ==
-                                                                                    "0"
-                                                                                ? languageController.tr(
-                                                                                    "ACTIVE",
-                                                                                  )
-                                                                                : languageController.tr(
-                                                                                    "DEACTIVE",
-                                                                                  ),
-                                                                          ),
-                                                                          Spacer(),
-                                                                          CircleAvatar(
+                                                                  ),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        languageController.tr(
+                                                                          "ACTION",
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              18,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                      Spacer(),
+                                                                      GestureDetector(
+                                                                        onTap: () =>
+                                                                            Navigator.pop(
+                                                                              context,
+                                                                            ),
+                                                                        child: Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                // Dialog Content
+                                                                Flexible(
+                                                                  child: SingleChildScrollView(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                          16,
+                                                                        ),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.power_settings_new,
+                                                                          title:
+                                                                              data.status
+                                                                                      .toString() ==
+                                                                                  "0"
+                                                                              ? languageController.tr(
+                                                                                  "ACTIVE",
+                                                                                )
+                                                                              : languageController.tr(
+                                                                                  "DEACTIVE",
+                                                                                ),
+                                                                          trailing: CircleAvatar(
                                                                             radius:
                                                                                 8,
                                                                             backgroundColor:
                                                                                 data.status.toString() ==
                                                                                     "0"
-                                                                                ? Colors.grey
-                                                                                : Colors.green,
+                                                                                ? Colors.green
+                                                                                : Colors.grey,
                                                                           ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        deleteSubResellerController.deletesub(
-                                                                          data.id
-                                                                              .toString(),
-                                                                        );
-                                                                        Navigator.pop(
-                                                                          context,
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.delete,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languageController.tr(
-                                                                              "DELETE",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        Get.to(
-                                                                          () => SetSubresellerPin(
-                                                                            subID:
-                                                                                data.id.toString(),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Image.asset(
-                                                                            "assets/icons/padlock.png",
-                                                                            height:
-                                                                                25,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languagesController.tr(
-                                                                              "SET_PIN",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () async {
-                                                                        showModalBottomSheet(
-                                                                          context:
+                                                                          onTap: () {
+                                                                            changeStatusController.channgestatus(
+                                                                              data.id.toString(),
+                                                                            );
+                                                                            Navigator.pop(
                                                                               context,
-                                                                          backgroundColor:
-                                                                              Colors.white,
-                                                                          shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.vertical(
-                                                                              top: Radius.circular(
-                                                                                20,
-                                                                              ),
-                                                                            ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.delete_outline,
+                                                                          title: languageController.tr(
+                                                                            "DELETE",
                                                                           ),
-                                                                          builder:
-                                                                              (
-                                                                                context,
-                                                                              ) {
-                                                                                return Obx(
-                                                                                  () {
-                                                                                    if (commissionlistController.isLoading.value) {
-                                                                                      return Center(
-                                                                                        child: CircularProgressIndicator(),
-                                                                                      );
-                                                                                    }
+                                                                          iconColor:
+                                                                              Colors.red,
+                                                                          onTap: () {
+                                                                            deleteSubResellerController.deletesub(
+                                                                              data.id.toString(),
+                                                                            );
+                                                                            Navigator.pop(
+                                                                              context,
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          iconAsset:
+                                                                              "assets/icons/padlock.png",
+                                                                          title: languagesController.tr(
+                                                                            "SET_PIN",
+                                                                          ),
+                                                                          onTap: () {
+                                                                            Get.to(
+                                                                              () => SetSubresellerPin(
+                                                                                subID: data.id.toString(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          iconAsset:
+                                                                              "assets/images/discount.png",
+                                                                          title: languagesController.tr(
+                                                                            "SET_COMMISSION_GROUP",
+                                                                          ),
+                                                                          onTap: () async {
+                                                                            showModalBottomSheet(
+                                                                              context: context,
+                                                                              backgroundColor: Colors.white,
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.vertical(
+                                                                                  top: Radius.circular(
+                                                                                    20,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              builder:
+                                                                                  (
+                                                                                    context,
+                                                                                  ) {
+                                                                                    return Obx(
+                                                                                      () {
+                                                                                        if (commissionlistController.isLoading.value) {
+                                                                                          return Center(
+                                                                                            child: CircularProgressIndicator(),
+                                                                                          );
+                                                                                        }
 
-                                                                                    final groups =
-                                                                                        commissionlistController.allgrouplist.value.data?.groups ??
-                                                                                        [];
+                                                                                        final groups =
+                                                                                            commissionlistController.allgrouplist.value.data?.groups ??
+                                                                                            [];
 
-                                                                                    return ListView.builder(
-                                                                                      itemCount: groups.length,
-                                                                                      itemBuilder:
-                                                                                          (
-                                                                                            context,
-                                                                                            index,
-                                                                                          ) {
-                                                                                            final group = groups[index];
-                                                                                            return ListTile(
-                                                                                              title: Text(
-                                                                                                group.groupName ??
-                                                                                                    '',
-                                                                                              ),
-                                                                                              subtitle: Text(
-                                                                                                "${group.amount} ${group.commissionType == 'percentage' ? '%' : ''}",
-                                                                                              ),
-                                                                                              trailing:
-                                                                                                  data.id.toString() ==
-                                                                                                      group.id.toString()
-                                                                                                  ? Icon(
-                                                                                                      Icons.check,
-                                                                                                      color: Colors.green,
-                                                                                                    )
-                                                                                                  : null,
-                                                                                              onTap: () async {
-                                                                                                Navigator.pop(
-                                                                                                  context,
-                                                                                                ); // বন্ধ করে দেই BottomSheet
-                                                                                                await controller.setgroup(
-                                                                                                  data.id.toString(),
-                                                                                                  group.id.toString(),
+                                                                                        return ListView.builder(
+                                                                                          itemCount: groups.length,
+                                                                                          itemBuilder:
+                                                                                              (
+                                                                                                context,
+                                                                                                index,
+                                                                                              ) {
+                                                                                                final group = groups[index];
+                                                                                                return ListTile(
+                                                                                                  title: Text(
+                                                                                                    group.groupName ??
+                                                                                                        '',
+                                                                                                  ),
+                                                                                                  subtitle: Text(
+                                                                                                    "${group.amount} ${group.commissionType == 'percentage' ? '%' : ''}",
+                                                                                                  ),
+                                                                                                  trailing:
+                                                                                                      data.id.toString() ==
+                                                                                                          group.id.toString()
+                                                                                                      ? Icon(
+                                                                                                          Icons.check_circle,
+                                                                                                          color: Colors.green,
+                                                                                                        )
+                                                                                                      : null,
+                                                                                                  onTap: () async {
+                                                                                                    Navigator.pop(
+                                                                                                      context,
+                                                                                                    );
+                                                                                                    await controller.setgroup(
+                                                                                                      data.id.toString(),
+                                                                                                      group.id.toString(),
+                                                                                                    );
+                                                                                                  },
                                                                                                 );
                                                                                               },
-                                                                                            );
-                                                                                          },
+                                                                                        );
+                                                                                      },
                                                                                     );
                                                                                   },
-                                                                                );
-                                                                              },
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Image.asset(
-                                                                            "assets/images/discount.png",
-                                                                            height:
-                                                                                25,
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.lock_outline,
+                                                                          title: languageController.tr(
+                                                                            "SET_PASSWORD",
                                                                           ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
+                                                                          onTap: () {
+                                                                            Get.to(
+                                                                              () => ChangeSubPasswordScreen(
+                                                                                subID: data.id.toString(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.account_balance_wallet_outlined,
+                                                                          title: languageController.tr(
+                                                                            "CHANGE_BALANCE",
                                                                           ),
-                                                                          Text(
-                                                                            languagesController.tr(
-                                                                              "SET_COMMISSION_GROUP",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
+                                                                          onTap: () {
+                                                                            Get.to(
+                                                                              () => ChangeBalanceScreen(
+                                                                                subID: data.id.toString(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        Get.to(
-                                                                          () => ChangeSubPasswordScreen(
-                                                                            subID:
-                                                                                data.id.toString(),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.password,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languageController.tr(
-                                                                              "SET_PASSWORD",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        Get.to(
-                                                                          () => ChangeBalanceScreen(
-                                                                            subID:
-                                                                                data.id.toString(),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.edit,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languageController.tr(
-                                                                              "CHANGE_BALANCE",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      height: 35,
-                                                      decoration: BoxDecoration(
-                                                        // color: Color(0xff46558A),
-                                                        color: AppColors
-                                                            .defaultColor,
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              5,
-                                                            ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 15,
-                                                            ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            languageController
-                                                                .tr("ACTION"),
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 14,
+                                                              ],
                                                             ),
                                                           ),
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 6,
                                                         ),
-                                                      ),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .defaultColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            6,
+                                                          ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.more_horiz,
+                                                          color: Colors.white,
+                                                          size: 16,
+                                                        ),
+                                                        SizedBox(width: 2),
+                                                        Text(
+                                                          languageController.tr(
+                                                            "ACTION",
+                                                          ),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
+
+                                          // Stats Section
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
                                               horizontal: 10,
+                                              vertical: 10,
                                             ),
-                                            child: Container(
-                                              height: 1,
-                                              width: screenWidth,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(
-                                                5.0,
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TODAY_ORDERS",
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 5),
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TOTAL_ORDERS",
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                    flex: 3,
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          width: 1,
-                                                          color: Colors.black,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              7,
-                                                            ),
-                                                      ),
-                                                      child: Center(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              data.balance
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              languageController.tr(
-                                                                "CURRENT_BALANCE",
-                                                              ),
-                                                            ),
-                                                          ],
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Column(
+                                                    children: [
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label: languageController
+                                                            .tr("TODAY_ORDERS"),
+                                                        icon: Icons
+                                                            .shopping_bag_outlined,
+                                                        color: Color(
+                                                          0xFF4CAF50,
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TOTAL_SALE",
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 5),
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TODAY_SALE",
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      SizedBox(height: 8),
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label: languageController
+                                                            .tr("TOTAL_ORDERS"),
+                                                        icon: Icons
+                                                            .receipt_long_outlined,
+                                                        color: Color(
+                                                          0xFF2196F3,
+                                                        ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: _buildCompactStatCard(
+                                                    value: data.balance
+                                                        .toString(),
+                                                    label: languageController
+                                                        .tr("CURRENT_BALANCE"),
+                                                    icon: Icons
+                                                        .account_balance_wallet_outlined,
+                                                    color: Color(0xFFFF9800),
+                                                    highlight: true,
+                                                    isLarge: true,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Column(
+                                                    children: [
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label:
+                                                            languageController
+                                                                .tr(
+                                                                  "TOTAL_SALE",
+                                                                ),
+                                                        icon: Icons.trending_up,
+                                                        color: Color(
+                                                          0xFF9C27B0,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 8),
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label:
+                                                            languageController
+                                                                .tr(
+                                                                  "TODAY_SALE",
+                                                                ),
+                                                        icon: Icons
+                                                            .monetization_on_outlined,
+                                                        color: Color(
+                                                          0xFFE91E63,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -988,9 +886,9 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                   shrinkWrap: false,
                                   controller: scrollController,
                                   physics: AlwaysScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(height: 8);
-                                  },
+                                  padding: EdgeInsets.symmetric(horizontal: 0),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(height: 8),
                                   itemCount:
                                       subresellerController.finalList.length,
                                   itemBuilder: (context, index) {
@@ -998,43 +896,55 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                         subresellerController.finalList[index];
 
                                     return Container(
-                                      height: 250,
-                                      width: screenWidth,
                                       decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.grey.withOpacity(
-                                              0.2,
-                                            ), // shadow color
-                                            spreadRadius: 2, // spread radius
-                                            blurRadius: 2, // blur radius
-                                            offset: Offset(
-                                              0,
-                                              0,
-                                            ), // changes position of shadow
+                                            color: Colors.black.withOpacity(
+                                              0.08,
+                                            ),
+                                            blurRadius: 8,
+                                            offset: Offset(0, 2),
                                           ),
                                         ],
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Column(
                                         children: [
+                                          // Header Section
                                           Container(
-                                            width: screenWidth,
-                                            // color: Colors.cyan,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 8,
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(
+                                                255,
+                                                202,
+                                                236,
+                                                202,
+                                              ),
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                // Profile Image
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color: AppColors
+                                                          .defaultColor
+                                                          .withOpacity(0.2),
+                                                      width: 2,
+                                                    ),
                                                   ),
-                                              child: Row(
-                                                children: [
-                                                  data.profileImageUrl
+                                                  child:
+                                                      data.profileImageUrl
                                                               .toString() !=
                                                           "null"
                                                       ? CircleAvatar(
-                                                          radius: 22,
+                                                          radius: 24,
                                                           backgroundImage:
                                                               NetworkImage(
                                                                 data.profileImageUrl
@@ -1042,15 +952,25 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                                               ),
                                                         )
                                                       : CircleAvatar(
-                                                          radius: 22,
+                                                          radius: 24,
                                                           backgroundColor:
-                                                              Colors.grey,
+                                                              AppColors
+                                                                  .defaultColor
+                                                                  .withOpacity(
+                                                                    0.1,
+                                                                  ),
+                                                          child: Icon(
+                                                            Icons.person,
+                                                            color: AppColors
+                                                                .defaultColor,
+                                                            size: 24,
+                                                          ),
                                                         ),
-                                                  SizedBox(width: 10),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                ),
+                                                SizedBox(width: 10),
+                                                // Name and Phone
+                                                Expanded(
+                                                  child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
@@ -1058,599 +978,436 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
                                                       Text(
                                                         data.resellerName
                                                             .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Color(
+                                                            0xFF212529,
+                                                          ),
+                                                        ),
                                                       ),
-                                                      Text(
-                                                        data.phone.toString(),
+                                                      SizedBox(height: 2),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.phone,
+                                                            size: 12,
+                                                            color: Colors
+                                                                .grey[600],
+                                                          ),
+                                                          SizedBox(width: 4),
+                                                          Text(
+                                                            data.phone
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors
+                                                                  .grey[600],
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
-                                                  Spacer(),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      box.write(
-                                                        "subresellerID",
-                                                        data.id,
-                                                      );
-                                                      detailsController
-                                                          .fetchSubResellerDetails(
-                                                            data.id.toString(),
-                                                          );
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return AlertDialog(
-                                                            contentPadding:
-                                                                EdgeInsets.all(
-                                                                  0.0,
+                                                ),
+                                                // Action Button
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    box.write(
+                                                      "subresellerID",
+                                                      data.id,
+                                                    );
+                                                    detailsController
+                                                        .fetchSubResellerDetails(
+                                                          data.id.toString(),
+                                                        );
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return Dialog(
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  16,
                                                                 ),
-                                                            content: Container(
-                                                              height: 300,
-                                                              width:
-                                                                  screenWidth -
-                                                                  100,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets.all(
-                                                                      12.0,
+                                                          ),
+                                                          child: Container(
+                                                            constraints:
+                                                                BoxConstraints(
+                                                                  maxHeight:
+                                                                      500,
+                                                                ),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                // Dialog Header
+                                                                Container(
+                                                                  padding:
+                                                                      EdgeInsets.all(
+                                                                        16,
+                                                                      ),
+                                                                  decoration: BoxDecoration(
+                                                                    color: AppColors
+                                                                        .defaultColor,
+                                                                    borderRadius: BorderRadius.only(
+                                                                      topLeft:
+                                                                          Radius.circular(
+                                                                            16,
+                                                                          ),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                            16,
+                                                                          ),
                                                                     ),
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        changeStatusController.channgestatus(
-                                                                          data.id
-                                                                              .toString(),
-                                                                        );
-                                                                        Navigator.pop(
-                                                                          context,
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.ac_unit,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            data.status
-                                                                                        .toString() ==
-                                                                                    "0"
-                                                                                ? languageController.tr(
-                                                                                    "ACTIVE",
-                                                                                  )
-                                                                                : languageController.tr(
-                                                                                    "DEACTIVE",
-                                                                                  ),
-                                                                          ),
-                                                                          Spacer(),
-                                                                          CircleAvatar(
+                                                                  ),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        languageController.tr(
+                                                                          "ACTION",
+                                                                        ),
+                                                                        style: TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              18,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                      Spacer(),
+                                                                      GestureDetector(
+                                                                        onTap: () =>
+                                                                            Navigator.pop(
+                                                                              context,
+                                                                            ),
+                                                                        child: Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                // Dialog Content
+                                                                Flexible(
+                                                                  child: SingleChildScrollView(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                          16,
+                                                                        ),
+                                                                    child: Column(
+                                                                      children: [
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.power_settings_new,
+                                                                          title:
+                                                                              data.status
+                                                                                      .toString() ==
+                                                                                  "0"
+                                                                              ? languageController.tr(
+                                                                                  "ACTIVE",
+                                                                                )
+                                                                              : languageController.tr(
+                                                                                  "DEACTIVE",
+                                                                                ),
+                                                                          trailing: CircleAvatar(
                                                                             radius:
                                                                                 8,
                                                                             backgroundColor:
                                                                                 data.status.toString() ==
                                                                                     "0"
-                                                                                ? Colors.grey
-                                                                                : Colors.green,
+                                                                                ? Colors.green
+                                                                                : Colors.grey,
                                                                           ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        deleteSubResellerController.deletesub(
-                                                                          data.id
-                                                                              .toString(),
-                                                                        );
-                                                                        Navigator.pop(
-                                                                          context,
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.delete,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languageController.tr(
-                                                                              "DELETE",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        Get.to(
-                                                                          () => SetSubresellerPin(
-                                                                            subID:
-                                                                                data.id.toString(),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Image.asset(
-                                                                            "assets/icons/padlock.png",
-                                                                            height:
-                                                                                25,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languagesController.tr(
-                                                                              "SET_PIN",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () async {
-                                                                        showModalBottomSheet(
-                                                                          context:
+                                                                          onTap: () {
+                                                                            changeStatusController.channgestatus(
+                                                                              data.id.toString(),
+                                                                            );
+                                                                            Navigator.pop(
                                                                               context,
-                                                                          backgroundColor:
-                                                                              Colors.white,
-                                                                          shape: RoundedRectangleBorder(
-                                                                            borderRadius: BorderRadius.vertical(
-                                                                              top: Radius.circular(
-                                                                                20,
-                                                                              ),
-                                                                            ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.delete_outline,
+                                                                          title: languageController.tr(
+                                                                            "DELETE",
                                                                           ),
-                                                                          builder:
-                                                                              (
-                                                                                context,
-                                                                              ) {
-                                                                                return Obx(
-                                                                                  () {
-                                                                                    if (commissionlistController.isLoading.value) {
-                                                                                      return Center(
-                                                                                        child: CircularProgressIndicator(),
-                                                                                      );
-                                                                                    }
+                                                                          iconColor:
+                                                                              Colors.red,
+                                                                          onTap: () {
+                                                                            deleteSubResellerController.deletesub(
+                                                                              data.id.toString(),
+                                                                            );
+                                                                            Navigator.pop(
+                                                                              context,
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          iconAsset:
+                                                                              "assets/icons/padlock.png",
+                                                                          title: languagesController.tr(
+                                                                            "SET_PIN",
+                                                                          ),
+                                                                          onTap: () {
+                                                                            Get.to(
+                                                                              () => SetSubresellerPin(
+                                                                                subID: data.id.toString(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          iconAsset:
+                                                                              "assets/images/discount.png",
+                                                                          title: languagesController.tr(
+                                                                            "SET_COMMISSION_GROUP",
+                                                                          ),
+                                                                          onTap: () async {
+                                                                            showModalBottomSheet(
+                                                                              context: context,
+                                                                              backgroundColor: Colors.white,
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.vertical(
+                                                                                  top: Radius.circular(
+                                                                                    20,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              builder:
+                                                                                  (
+                                                                                    context,
+                                                                                  ) {
+                                                                                    return Obx(
+                                                                                      () {
+                                                                                        if (commissionlistController.isLoading.value) {
+                                                                                          return Center(
+                                                                                            child: CircularProgressIndicator(),
+                                                                                          );
+                                                                                        }
 
-                                                                                    final groups =
-                                                                                        commissionlistController.allgrouplist.value.data?.groups ??
-                                                                                        [];
+                                                                                        final groups =
+                                                                                            commissionlistController.allgrouplist.value.data?.groups ??
+                                                                                            [];
 
-                                                                                    return ListView.builder(
-                                                                                      itemCount: groups.length,
-                                                                                      itemBuilder:
-                                                                                          (
-                                                                                            context,
-                                                                                            index,
-                                                                                          ) {
-                                                                                            final group = groups[index];
-                                                                                            return ListTile(
-                                                                                              title: Text(
-                                                                                                group.groupName ??
-                                                                                                    '',
-                                                                                              ),
-                                                                                              subtitle: Text(
-                                                                                                "${group.amount} ${group.commissionType == 'percentage' ? '%' : ''}",
-                                                                                              ),
-                                                                                              trailing:
-                                                                                                  data.id.toString() ==
-                                                                                                      group.id.toString()
-                                                                                                  ? Icon(
-                                                                                                      Icons.check,
-                                                                                                      color: Colors.green,
-                                                                                                    )
-                                                                                                  : null,
-                                                                                              onTap: () async {
-                                                                                                Navigator.pop(
-                                                                                                  context,
-                                                                                                ); // বন্ধ করে দেই BottomSheet
-                                                                                                await controller.setgroup(
-                                                                                                  data.id.toString(),
-                                                                                                  group.id.toString(),
+                                                                                        return ListView.builder(
+                                                                                          itemCount: groups.length,
+                                                                                          itemBuilder:
+                                                                                              (
+                                                                                                context,
+                                                                                                index,
+                                                                                              ) {
+                                                                                                final group = groups[index];
+                                                                                                return ListTile(
+                                                                                                  title: Text(
+                                                                                                    group.groupName ??
+                                                                                                        '',
+                                                                                                  ),
+                                                                                                  subtitle: Text(
+                                                                                                    "${group.amount} ${group.commissionType == 'percentage' ? '%' : ''}",
+                                                                                                  ),
+                                                                                                  trailing:
+                                                                                                      data.id.toString() ==
+                                                                                                          group.id.toString()
+                                                                                                      ? Icon(
+                                                                                                          Icons.check_circle,
+                                                                                                          color: Colors.green,
+                                                                                                        )
+                                                                                                      : null,
+                                                                                                  onTap: () async {
+                                                                                                    Navigator.pop(
+                                                                                                      context,
+                                                                                                    );
+                                                                                                    await controller.setgroup(
+                                                                                                      data.id.toString(),
+                                                                                                      group.id.toString(),
+                                                                                                    );
+                                                                                                  },
                                                                                                 );
                                                                                               },
-                                                                                            );
-                                                                                          },
+                                                                                        );
+                                                                                      },
                                                                                     );
                                                                                   },
-                                                                                );
-                                                                              },
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Image.asset(
-                                                                            "assets/images/discount.png",
-                                                                            height:
-                                                                                25,
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.lock_outline,
+                                                                          title: languageController.tr(
+                                                                            "SET_PASSWORD",
                                                                           ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
+                                                                          onTap: () {
+                                                                            Get.to(
+                                                                              () => ChangeSubPasswordScreen(
+                                                                                subID: data.id.toString(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                        _buildActionItem(
+                                                                          icon:
+                                                                              Icons.account_balance_wallet_outlined,
+                                                                          title: languageController.tr(
+                                                                            "CHANGE_BALANCE",
                                                                           ),
-                                                                          Text(
-                                                                            languagesController.tr(
-                                                                              "SET_COMMISSION_GROUP",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
+                                                                          onTap: () {
+                                                                            Get.to(
+                                                                              () => ChangeBalanceScreen(
+                                                                                subID: data.id.toString(),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ],
                                                                     ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        Get.to(
-                                                                          () => ChangeSubPasswordScreen(
-                                                                            subID:
-                                                                                data.id.toString(),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.password,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languageController.tr(
-                                                                              "SET_PASSWORD",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    Divider(
-                                                                      thickness:
-                                                                          1,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                    GestureDetector(
-                                                                      onTap: () {
-                                                                        Get.to(
-                                                                          () => ChangeBalanceScreen(
-                                                                            subID:
-                                                                                data.id.toString(),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child: Row(
-                                                                        children: [
-                                                                          Icon(
-                                                                            Icons.edit,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                10,
-                                                                          ),
-                                                                          Text(
-                                                                            languageController.tr(
-                                                                              "CHANGE_BALANCE",
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Container(
-                                                      height: 35,
-                                                      decoration: BoxDecoration(
-                                                        // color: Color(0xff46558A),
-                                                        color: AppColors
-                                                            .defaultColor,
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              5,
-                                                            ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 15,
-                                                            ),
-                                                        child: Center(
-                                                          child: Text(
-                                                            languageController
-                                                                .tr("ACTION"),
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 14,
+                                                              ],
                                                             ),
                                                           ),
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 6,
                                                         ),
-                                                      ),
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors
+                                                          .defaultColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            6,
+                                                          ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.more_horiz,
+                                                          color: Colors.white,
+                                                          size: 16,
+                                                        ),
+                                                        SizedBox(width: 2),
+                                                        Text(
+                                                          languageController.tr(
+                                                            "ACTION",
+                                                          ),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
+
+                                          // Stats Section
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
                                               horizontal: 10,
+                                              vertical: 10,
                                             ),
-                                            child: Container(
-                                              height: 1,
-                                              width: screenWidth,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(
-                                                5.0,
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TODAY_ORDERS",
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 5),
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TOTAL_ORDERS",
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                    flex: 3,
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          width: 1,
-                                                          color: Colors.black,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                              7,
-                                                            ),
-                                                      ),
-                                                      child: Center(
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              data.balance
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              languageController.tr(
-                                                                "CURRENT_BALANCE",
-                                                              ),
-                                                            ),
-                                                          ],
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Column(
+                                                    children: [
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label: languageController
+                                                            .tr("TODAY_ORDERS"),
+                                                        icon: Icons
+                                                            .shopping_bag_outlined,
+                                                        color: Color(
+                                                          0xFF4CAF50,
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                    flex: 2,
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TOTAL_SALE",
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 5),
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .black,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius.circular(
-                                                                      7,
-                                                                    ),
-                                                              ),
-                                                              child: Center(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Text(
-                                                                      "0",
-                                                                      style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      languageController.tr(
-                                                                        "TODAY_SALE",
-                                                                      ),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      SizedBox(height: 8),
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label: languageController
+                                                            .tr("TOTAL_ORDERS"),
+                                                        icon: Icons
+                                                            .receipt_long_outlined,
+                                                        color: Color(
+                                                          0xFF2196F3,
+                                                        ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: _buildCompactStatCard(
+                                                    value: data.balance
+                                                        .toString(),
+                                                    label: languageController
+                                                        .tr("CURRENT_BALANCE"),
+                                                    icon: Icons
+                                                        .account_balance_wallet_outlined,
+                                                    color: Color(0xFFFF9800),
+                                                    highlight: true,
+                                                    isLarge: true,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Column(
+                                                    children: [
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label:
+                                                            languageController
+                                                                .tr(
+                                                                  "TOTAL_SALE",
+                                                                ),
+                                                        icon: Icons.trending_up,
+                                                        color: Color(
+                                                          0xFF9C27B0,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 8),
+                                                      _buildCompactStatCard(
+                                                        value: "0",
+                                                        label:
+                                                            languageController
+                                                                .tr(
+                                                                  "TODAY_SALE",
+                                                                ),
+                                                        icon: Icons
+                                                            .monetization_on_outlined,
+                                                        color: Color(
+                                                          0xFFE91E63,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -1718,4 +1475,103 @@ class _SubResellerScreenState extends State<SubResellerScreen> {
             ),
     );
   }
+}
+
+// Helper method for compact stat cards
+Widget _buildCompactStatCard({
+  required String value,
+  required String label,
+  required IconData icon,
+  required Color color,
+  bool highlight = false,
+  bool isLarge = false,
+}) {
+  return Container(
+    height: isLarge ? null : 80,
+    width: 100,
+    padding: EdgeInsets.all(8),
+    decoration: BoxDecoration(
+      color: highlight ? color.withOpacity(0.1) : Colors.white,
+      border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color, size: isLarge ? 28 : 20),
+        SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: isLarge ? 18 : 15,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF212529),
+          ),
+        ),
+        SizedBox(height: 2),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          style: TextStyle(fontSize: 9, color: Colors.grey[600], height: 1.1),
+        ),
+      ],
+    ),
+  );
+}
+
+// Helper method for action items
+Widget _buildActionItem({
+  IconData? icon,
+  String? iconAsset,
+  required String title,
+  Color? iconColor,
+  Widget? trailing,
+  required VoidCallback onTap,
+}) {
+  return Column(
+    children: [
+      InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: (iconColor ?? Colors.grey[700])!.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: icon != null
+                      ? Icon(
+                          icon,
+                          color: iconColor ?? Colors.grey[700],
+                          size: 20,
+                        )
+                      : Image.asset(iconAsset!, height: 20, width: 20),
+                ),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF212529),
+                  ),
+                ),
+              ),
+              if (trailing != null) trailing,
+            ],
+          ),
+        ),
+      ),
+      Divider(height: 1, thickness: 1),
+    ],
+  );
 }

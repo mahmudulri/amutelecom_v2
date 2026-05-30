@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../utils/colors.dart';
-
 class MyProfileboxwidget extends StatelessWidget {
   String? boxname;
   String? title;
@@ -16,10 +14,7 @@ class MyProfileboxwidget extends StatelessWidget {
       width: screenWidth,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          width: 1,
-          color: Colors.grey.shade200,
-        ),
+        border: Border.all(width: 1, color: Colors.grey.shade200),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
@@ -29,17 +24,11 @@ class MyProfileboxwidget extends StatelessWidget {
           children: [
             Text(
               boxname.toString(),
-              style: TextStyle(
-                color: Color(0xff838383),
-                fontSize: 13,
-              ),
+              style: TextStyle(color: Color(0xff838383), fontSize: 13),
             ),
             Text(
               title.toString(),
-              style: TextStyle(
-                color: Color(0xff000000),
-                fontSize: 15,
-              ),
+              style: TextStyle(color: Color(0xff000000), fontSize: 15),
             ),
           ],
         ),
